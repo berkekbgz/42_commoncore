@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 23:02:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:12:16 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/30 00:42:43 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/30 00:44:32 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_bzero(void *s, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	ft_memset(s, 0, n);
+	size_t	i;
+
+	if (n == 0)
+		return (0);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] && i < n - 1)
+		i++;
+	return (s1[i] - s2[i]);
 }

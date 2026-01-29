@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 23:02:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:12:16 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/30 00:51:44 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/30 01:05:13 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	ft_memset(s, 0, n);
+	size_t	i;
+	size_t	needle_len;
+
+	needle_len = ft_strlen(needle);
+	if (!needle_len)
+		return ((char *)haystack);
+	i = 0;
+	while (haystack[i] && i < len)
+	{
+		if (i + needle_len <= len
+			&& ft_strncmp(haystack + i, needle, needle_len) == 0)
+			return ((char *)(haystack + i));
+		i++;
+	}
+	return (NULL);
 }

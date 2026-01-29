@@ -6,13 +6,13 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:26:15 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/29 23:01:55 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 00:08:41 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] != '\0')

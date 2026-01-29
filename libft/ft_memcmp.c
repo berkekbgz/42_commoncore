@@ -1,16 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 23:02:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:12:16 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/30 00:47:01 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/30 00:50:39 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_bzero(void *s, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	ft_memset(s, 0, n);
+	size_t				i;
+	const unsigned char	*ptr1;
+	const unsigned char	*ptr2;
+
+	ptr1 = (const unsigned char *)s1;
+	ptr2 = (const unsigned char *)s2;
+	i = 0;
+	while (i < n)
+	{
+		if (ptr1[i] != ptr2[i])
+			return (ptr1[i] - ptr2[i]);
+		i++;
+	}
+	return (0);
 }

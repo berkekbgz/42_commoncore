@@ -1,16 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 23:02:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:12:16 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/30 01:10:47 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/30 01:22:36 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_bzero(void *s, size_t n)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	ft_memset(s, 0, n);
+	char	*ptr;
+
+	if (!s)
+		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ft_strdup(""));
+	if (len > ft_strlen((const char *)s + start))
+		len = ft_strlen((const char *)s + start);
+	ptr = (char *)malloc(sizeof(char) * (len + 1));
+	if (!ptr)
+		return (NULL);
+	ft_strlcpy(ptr, (char *)s + start, len + 1);
+	return (ptr);
 }
