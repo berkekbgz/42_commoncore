@@ -5,6 +5,7 @@
 
 /pdfs/*.*
 !/pdfs/*.subj.pdf
+!/pdfs/en.norm.pdf
 
 # libft directory
 /libft/*
@@ -12,3 +13,4 @@
 !/libft/ft_*.c
 !/libft/libft.h
 !/libft/Makefile
+!/libft/README.md

@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:05:47 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 20:27:44 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/31 20:44:19 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	unsigned char		*d;
 	const unsigned char	*s;
 
-	if (dest == NULL || src == NULL)
+	if (!dest && !src)
 		return (NULL);
 	d = (unsigned char *)dest;
 	s = (const unsigned char *)src;
