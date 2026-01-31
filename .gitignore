@@ -1,6 +1,11 @@
 /test*.c
 /*.out
 
+# pdfs
+
+/pdfs/*.*
+!/pdfs/*.subj.pdf
+
 # libft directory
 /libft/*
 

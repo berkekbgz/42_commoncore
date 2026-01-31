@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 20:38:15 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/31 20:29:17 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/31 18:29:29 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/31 18:32:33 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
-char	*ft_strjoin(char const *s1, char const *s2)
+t_list	*ft_lstnew(void *content)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*new_str;
+	t_list	*lst;
 
-	if (!s1 || !s2)
+	lst = (t_list *)malloc(sizeof(t_list));
+	if (!lst)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	new_str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!new_str)
-		return (NULL);
-	ft_memcpy(new_str, s1, s1_len);
-	ft_memcpy((new_str + s1_len), s2, s2_len + 1);
-	return (new_str);
+	lst->content = content;
+	lst->next = NULL;
+	return (lst);
 }

@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 20:38:15 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/31 20:29:17 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/31 16:27:45 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/31 16:42:40 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*new_str;
+	char			*new_str;
+	unsigned int	i;
 
-	if (!s1 || !s2)
+	if (!s)
 		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	new_str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	new_str = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (!new_str)
 		return (NULL);
-	ft_memcpy(new_str, s1, s1_len);
-	ft_memcpy((new_str + s1_len), s2, s2_len + 1);
+	i = 0;
+	while (s[i])
+	{
+		new_str[i] = f(i, s[i]);
+		i++;
+	}
+	new_str[i] = '\0';
 	return (new_str);
 }

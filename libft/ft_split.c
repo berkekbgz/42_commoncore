@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 14:41:28 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/31 15:37:37 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/31 15:55:43 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*next_word(char const *s, char c, size_t *appendix_out)
 	return (word);
 }
 
-char	**free_on_err(char **arr, size_t i)
+static char	**free_on_err(char **arr, size_t i)
 {
 	while (i > 0)
 		free(arr[--i]);
