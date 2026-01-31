@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:41:47 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:42:21 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:27:19 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {

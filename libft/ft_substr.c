@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 01:10:47 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 01:22:36 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:28:07 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

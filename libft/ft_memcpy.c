@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:05:47 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:48:28 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:27:44 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

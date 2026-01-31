@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/30 00:39:23 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 20:26:33 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/01/30 21:16:12 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/01/31 14:46:01 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if (c == '\0')
-		return ((char *)s);
-	return (NULL);
+	size_t	start;
+	size_t	end;
+
+	if (!s1 || !set)
+		return (NULL);
+	start = 0;
+	end = ft_strlen(s1);
+	while (s1[start] && ft_strchr(set, s1[start]))
+		start++;
+	while (start < end && ft_strchr(set, s1[end - 1]))
+		end--;
+	return (ft_substr(s1, start, end - start));
 }

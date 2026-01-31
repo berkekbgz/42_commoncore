@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:51:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 01:05:13 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:28:00 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {

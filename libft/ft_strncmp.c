@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:42:43 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:44:32 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:27:30 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

@@ -1,0 +1,9 @@
+/test*.c
+/*.out
+
+# libft directory
+/libft/*
+
+!/libft/ft_*.c
+!/libft/libft.h
+!/libft/Makefile

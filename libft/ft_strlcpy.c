@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:22:20 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:48:09 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:27:36 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {

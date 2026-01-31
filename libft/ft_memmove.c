@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:10:18 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 01:26:07 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:34:25 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {

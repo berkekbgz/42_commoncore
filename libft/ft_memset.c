@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 22:47:50 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 01:25:12 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:28:12 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 void	*ft_memset(void *s, int c, size_t n)
 {

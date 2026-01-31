@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 00:28:15 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 00:36:55 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/01/30 20:25:08 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
