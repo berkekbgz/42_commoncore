@@ -25,6 +25,22 @@ if [ -z "$PROJECT" ] || [ -z "$REMOTE" ]; then
     exit 1
 fi
 
+# Check if project exists
+if [ ! -d "$PROJECT" ]; then
+    echo -e "${RED}Error:${RESET} Project folder '${YELLOW}$PROJECT${RESET}' not found"
+    echo -e "${DIM}Available folders:${RESET}"
+    ls -d */ 2>/dev/null | sed 's/^/  /'
+    exit 1
+fi
+
+# Check if dependencies exist
+for dep in "${DEPS[@]}"; do
+    if [ ! -d "$dep" ]; then
+        echo -e "${RED}Error:${RESET} Dependency folder '${YELLOW}$dep${RESET}' not found"
+        exit 1
+    fi
+done
+
 ORIG_DIR=$(pwd)
 
 echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
@@ -63,12 +79,20 @@ rmdir "$PROJECT" 2>/dev/null || true
 git add -A
 git commit --quiet -m "flatten for submission" 2>/dev/null || true
 
+# Verify files exist after processing
+FILE_COUNT=$(git ls-files | wc -l | xargs)
+if [ "$FILE_COUNT" -eq 0 ]; then
+    echo -e "${RED}Error:${RESET} No files after processing. Something went wrong."
+    cd "$ORIG_DIR"
+    rm -rf /tmp/42submit
+    exit 1
+fi
+
 # Show commits being submitted
 echo ""
 echo -e "${BOLD}${MAGENTA}📝 Commits to submit:${RESET}"
 echo -e "${DIM}───────────────────────────────────────────${RESET}"
 
-# Use git's built-in coloring
 git -c color.ui=always log \
     --format="%C(yellow)%h%C(reset) %C(bold)%s%C(reset) %C(dim)(%cr)%C(reset)" \
     --stat \
@@ -78,7 +102,6 @@ git -c color.ui=always log \
 echo -e "${DIM}───────────────────────────────────────────${RESET}"
 
 COMMIT_COUNT=$(git rev-list --count HEAD)
-FILE_COUNT=$(git ls-files | wc -l | xargs)
 echo ""
 echo -e "${BOLD}📊 Summary:${RESET}"
 echo -e "   ${BLUE}Commits:${RESET} ${COMMIT_COUNT}"
