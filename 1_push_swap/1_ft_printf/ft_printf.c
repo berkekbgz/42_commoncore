@@ -6,16 +6,17 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 19:24:43 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 00:31:20 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/02/02 01:28:52 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "ft_put/ft_put.h"
 #include "libft.h"
+#include <stdarg.h>
 #include <unistd.h>
 
-char	handle_formatting(const char *peek, va_list *args)
+int	handle_formatting(const char *peek, va_list *args)
 {
 	if (*peek == '%')
 		return (write(1, "%", 1));
@@ -26,11 +27,11 @@ char	handle_formatting(const char *peek, va_list *args)
 	else if (*peek == 'p')
 		return (ft_putptr(va_arg(*args, void *)));
 	else if (*peek == 'd')
-		return (0);
+		return (va_arg(*args, int));
 	else if (*peek == 'i')
-		return (0);
+		return (va_arg(*args, int));
 	else if (*peek == 'u')
-		return (0);
+		return (va_arg(*args, unsigned int));
 	else if (*peek == 'x')
 		return (ft_puthex(va_arg(*args, unsigned int), 0));
 	else if (*peek == 'X')
@@ -62,5 +63,6 @@ int	ft_printf(const char *format, ...)
 			return (-1);
 		count += ret;
 	}
+	va_end(args);
 	return (count);
 }
