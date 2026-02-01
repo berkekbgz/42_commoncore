@@ -3,23 +3,34 @@
 
 set -e
 
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+DIM='\033[2m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
 PROJECT=$1
 REMOTE=$2
 shift 2
 DEPS=("$@")
 
 if [ -z "$PROJECT" ] || [ -z "$REMOTE" ]; then
-    echo "Usage: submit42 <project> <remote> [dependencies...]"
-    echo "Example: submit42 push_swap git@vogsphere.../uuid libft"
+    echo -e "${RED}Usage:${RESET} submit42 <project> <remote> [dependencies...]"
+    echo -e "${DIM}Example: submit42 push_swap git@vogsphere.../uuid libft${RESET}"
     exit 1
 fi
 
 ORIG_DIR=$(pwd)
 
-echo "═══════════════════════════════════════════"
-echo "  Submitting: $PROJECT"
-echo "  Dependencies: ${DEPS[*]:-none}"
-echo "═══════════════════════════════════════════"
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+echo -e "${BOLD}  📦 Project:${RESET}      ${GREEN}$PROJECT${RESET}"
+echo -e "${BOLD}  🔗 Dependencies:${RESET} ${YELLOW}${DEPS[*]:-none}${RESET}"
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
 
 rm -rf /tmp/42submit
 git clone . /tmp/42submit --quiet
@@ -32,7 +43,8 @@ for dep in "${DEPS[@]}"; do
 done
 
 # Keep only commits touching project and its dependencies
-git filter-repo $PATHS --force --quiet
+echo -e "${DIM}Filtering history...${RESET}"
+git filter-repo $PATHS --force --quiet 2>/dev/null || git filter-repo $PATHS --force
 
 # Move dependencies into project folder (resolve symlink structure)
 for dep in "${DEPS[@]}"; do
@@ -53,26 +65,38 @@ git commit --quiet -m "flatten for submission" 2>/dev/null || true
 
 # Show commits being submitted
 echo ""
-echo "📝 Commits to submit:"
-echo "───────────────────────────────────────────"
-git log --oneline --stat --format="%C(yellow)%h%C(reset) %s %C(dim)(%cr)%C(reset)" | head -80
-echo "───────────────────────────────────────────"
-echo ""
+echo -e "${BOLD}${MAGENTA}📝 Commits to submit:${RESET}"
+echo -e "${DIM}───────────────────────────────────────────${RESET}"
+
+# Use git's built-in coloring
+git -c color.ui=always log \
+    --format="%C(yellow)%h%C(reset) %C(bold)%s%C(reset) %C(dim)(%cr)%C(reset)" \
+    --stat \
+    --stat-graph-width=15 \
+    --color=always | head -100
+
+echo -e "${DIM}───────────────────────────────────────────${RESET}"
 
 COMMIT_COUNT=$(git rev-list --count HEAD)
-echo "Total: $COMMIT_COUNT commits"
+FILE_COUNT=$(git ls-files | wc -l | xargs)
+echo ""
+echo -e "${BOLD}📊 Summary:${RESET}"
+echo -e "   ${BLUE}Commits:${RESET} ${COMMIT_COUNT}"
+echo -e "   ${BLUE}Files:${RESET}   ${FILE_COUNT}"
 echo ""
 
 # Confirm
-read -p "Push to vogsphere? [y/N] " -n 1 -r
+echo -ne "${BOLD}Push to vogsphere? [y/N]${RESET} "
+read -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    git push -f "$REMOTE" HEAD:main
+    echo -e "${DIM}Pushing...${RESET}"
+    git push -f "$REMOTE" HEAD:main 2>&1 | sed "s/^/  /"
     echo ""
-    echo "✓ Submitted $PROJECT ($COMMIT_COUNT commits)"
+    echo -e "${GREEN}${BOLD}✓ Submitted ${PROJECT} (${COMMIT_COUNT} commits)${RESET}"
 else
-    echo "✗ Cancelled"
+    echo -e "${RED}✗ Cancelled${RESET}"
 fi
 
 cd "$ORIG_DIR"
