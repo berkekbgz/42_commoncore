@@ -17,9 +17,12 @@
 
 # ft_printf directory
 
-/1_ft_printf/**/*.*
+/1_ft_printf/**/**
 
-!/1_ft_printf/**/ft_*.c
-!/1_ft_printf/**/ft_*.h
+!/1_ft_printf/ft_*.c
+!/1_ft_printf/ft_*.h
+!/1_ft_printf/libft
 !/1_ft_printf/Makefile
 !/1_ft_printf/README.md
+!/1_ft_printf/ft_put/ft_*.c
+!/1_ft_printf/ft_put/ft_*.h
