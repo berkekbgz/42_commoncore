@@ -17,11 +17,12 @@ RESET='\033[0m'
 PROJECT=$1
 REMOTE=$2
 shift 2
-DEPS=("$@")
+MANUAL_DEPS=("$@")
 
 if [ -z "$PROJECT" ] || [ -z "$REMOTE" ]; then
-    echo -e "${RED}Usage:${RESET} submit42 <project> <remote> [dependencies...]"
-    echo -e "${DIM}Example: submit42 push_swap git@vogsphere.../uuid libft${RESET}"
+    echo -e "${RED}Usage:${RESET} submit42 <project> <remote> [extra-dependencies...]"
+    echo -e "${DIM}Example: submit42 push_swap git@vogsphere.../uuid${RESET}"
+    echo -e "${DIM}Symlinked dependencies are auto-detected${RESET}"
     exit 1
 fi
 
@@ -32,6 +33,23 @@ if [ ! -d "$PROJECT" ]; then
     ls -d */ 2>/dev/null | sed 's/^/  /'
     exit 1
 fi
+
+# Auto-detect symlinked dependencies
+# Store as "target_folder:symlink_name"
+AUTO_DEPS=()
+declare -A DEP_RENAME  # target -> link_name
+while IFS= read -r link; do
+    target=$(readlink "$link")
+    link_name=$(basename "$link")           # e.g., "libft"
+    dep_name=$(basename "$target")          # e.g., "0_libft"
+    if [ -d "$dep_name" ]; then
+        AUTO_DEPS+=("$dep_name")
+        DEP_RENAME["$dep_name"]="$link_name"
+    fi
+done < <(find "$PROJECT" -type l 2>/dev/null)
+
+# Combine auto + manual deps, remove duplicates
+DEPS=($(echo "${AUTO_DEPS[@]}" "${MANUAL_DEPS[@]}" | tr ' ' '\n' | sort -u))
 
 # Check if dependencies exist
 for dep in "${DEPS[@]}"; do
@@ -45,7 +63,22 @@ ORIG_DIR=$(pwd)
 
 echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
 echo -e "${BOLD}  📦 Project:${RESET}      ${GREEN}$PROJECT${RESET}"
-echo -e "${BOLD}  🔗 Dependencies:${RESET} ${YELLOW}${DEPS[*]:-none}${RESET}"
+if [ ${#AUTO_DEPS[@]} -gt 0 ]; then
+    for dep in "${AUTO_DEPS[@]}"; do
+        link_name="${DEP_RENAME[$dep]}"
+        if [ "$dep" != "$link_name" ]; then
+            echo -e "${BOLD}  🔗 Auto-detected:${RESET} ${YELLOW}${dep}${RESET} ${DIM}(as ${link_name})${RESET}"
+        else
+            echo -e "${BOLD}  🔗 Auto-detected:${RESET} ${YELLOW}${dep}${RESET}"
+        fi
+    done
+fi
+if [ ${#MANUAL_DEPS[@]} -gt 0 ]; then
+    echo -e "${BOLD}  📎 Manual deps:${RESET}   ${YELLOW}${MANUAL_DEPS[*]}${RESET}"
+fi
+if [ ${#DEPS[@]} -eq 0 ]; then
+    echo -e "${BOLD}  🔗 Dependencies:${RESET} ${DIM}none${RESET}"
+fi
 echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
 
 rm -rf /tmp/42submit
@@ -65,10 +98,12 @@ git filter-repo $PATHS --force --quiet 2>/dev/null || git filter-repo $PATHS --f
 # Move dependencies into project folder (resolve symlink structure)
 for dep in "${DEPS[@]}"; do
     if [ -d "$dep" ]; then
-        rm -rf "$PROJECT/$dep"
-        mv "$dep" "$PROJECT/"
+        # Use symlink name if available, otherwise use folder name
+        link_name="${DEP_RENAME[$dep]:-$dep}"
+        rm -rf "$PROJECT/$link_name"
+        mv "$dep" "$PROJECT/$link_name"
         git add -A
-        git commit --quiet -m "bundle $dep into $PROJECT"
+        git commit --quiet -m "bundle $dep as $link_name"
     fi
 done
 
@@ -93,11 +128,12 @@ echo ""
 echo -e "${BOLD}${MAGENTA}📝 Commits to submit:${RESET}"
 echo -e "${DIM}───────────────────────────────────────────${RESET}"
 
-git -c color.ui=always log \
+git --no-pager -c color.ui=always log \
     --format="%C(yellow)%h%C(reset) %C(bold)%s%C(reset) %C(dim)(%cr)%C(reset)" \
-    --stat \
+    --stat=80 \
+    --stat-count=10 \
     --stat-graph-width=15 \
-    --color=always | head -100
+    --color=always | head -150
 
 echo -e "${DIM}───────────────────────────────────────────${RESET}"
 
