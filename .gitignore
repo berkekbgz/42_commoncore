@@ -8,9 +8,18 @@
 !/pdfs/en.norm.pdf
 
 # libft directory
-/libft/*
+/0_libft/*
 
-!/libft/ft_*.c
-!/libft/libft.h
-!/libft/Makefile
-!/libft/README.md
+!/0_libft/ft_*.c
+!/0_libft/libft.h
+!/0_libft/Makefile
+!/0_libft/README.md
+
+# ft_printf directory
+
+/1_ft_printf/**/*.*
+
+!/1_ft_printf/**/ft_*.c
+!/1_ft_printf/**/ft_*.h
+!/1_ft_printf/Makefile
+!/1_ft_printf/README.md
