@@ -6,9 +6,11 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 01:05:20 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/01/30 01:23:02 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/02/02 13:25:41 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_atoi(const char *str)
 {
