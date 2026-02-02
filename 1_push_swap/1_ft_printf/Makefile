@@ -8,7 +8,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 SRC = ft_printf.c \
 	  ft_put/ft_putcharstr.c \
 	  ft_put/ft_putptr.c \
-	  ft_put/ft_puthex.c
+	  ft_put/ft_puthex.c \
+	  ft_put/ft_putint.c
 
 OBJ= $(SRC:.c=.o)
 
@@ -18,7 +19,6 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJ)
-	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJ)
 
 clean:

@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/01 19:24:43 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 01:28:52 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/02/02 17:26:53 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,10 @@ int	handle_formatting(const char *peek, va_list *args)
 		return (ft_putstr(va_arg(*args, char *)));
 	else if (*peek == 'p')
 		return (ft_putptr(va_arg(*args, void *)));
-	else if (*peek == 'd')
-		return (va_arg(*args, int));
-	else if (*peek == 'i')
-		return (va_arg(*args, int));
+	else if (*peek == 'd' || *peek == 'i')
+		return (ft_putint(va_arg(*args, int)));
 	else if (*peek == 'u')
-		return (va_arg(*args, unsigned int));
+		return (ft_putuint(va_arg(*args, unsigned int)));
 	else if (*peek == 'x')
 		return (ft_puthex(va_arg(*args, unsigned int), 0));
 	else if (*peek == 'X')
@@ -46,13 +44,13 @@ int	ft_printf(const char *format, ...)
 	int		ret;
 	size_t	count;
 
+	if (!format)
+		return (-1);
 	count = 0;
 	va_start(args, format);
 	while (*format)
 	{
-		if (*format != '%')
-			ret = write(1, format++, 1);
-		else if (format[1] && ft_strchr("cspdiuxX%", format[1]))
+		if (*format == '%' && ft_strchr("cspdiuxX%", format[1]))
 		{
 			ret = handle_formatting(format + 1, &args);
 			format += 2;
