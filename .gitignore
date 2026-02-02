@@ -1,5 +1,7 @@
-/test*.c
-/*.out
+*
+
+!*/
+!/.gitignore
 
 # pdfs
 
@@ -17,7 +19,8 @@
 
 # ft_printf directory
 
-/1_ft_printf/**/**
+/1_ft_printf/*.*
+/1_ft_printf/printfTester
 
 !/1_ft_printf/ft_*.c
 !/1_ft_printf/ft_*.h
