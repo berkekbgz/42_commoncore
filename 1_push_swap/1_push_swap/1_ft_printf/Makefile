@@ -6,6 +6,7 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC = ft_printf.c \
+	  ft_printf_flag.c \
 	  ft_put/ft_putcharstr.c \
 	  ft_put/ft_putptr.c \
 	  ft_put/ft_puthex.c \

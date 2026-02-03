@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putptr.c                                        :+:      :+:    :+:   */
+/*   ft_printf_flag.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/01 23:47:10 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 17:50:24 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/02/02 22:04:08 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/02/02 22:05:07 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_put.h"
-#include <unistd.h>
+#ifndef FT_PRINTF_FLAG_H
+# define FT_PRINTF_FLAG_H
 
-int	ft_putptr(void *p)
+typedef struct s_printf_arg
 {
-	unsigned long long	val;
+	int		hash;
+	int		zero;
+	int		minus;
+	int		plus;
+	int		space;
+	int		width;
+	int		precision;
+}	t_printf_flag;
 
-	if (!p)
-		return (write(1, "(nil)", 5));
-	val = (unsigned long long)p;
-	return (ft_puthex(val, 0, 1));
-}
+t_printf_flag	consume_flag(const char	**peek);
+
+#endif
