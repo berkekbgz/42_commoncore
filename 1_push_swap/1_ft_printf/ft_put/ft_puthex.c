@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 00:18:42 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 17:22:07 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/02/02 17:51:10 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,20 @@ static int	puthex_recursive(unsigned long long val, char *hex)
 	return (count + ret);
 }
 
-int	ft_puthex(unsigned long long val, int use_upper)
+int	ft_puthex(unsigned long long val, char use_upper, char use_alternate)
 {
 	char	*hex;
+	char	ret;
 
+	if (use_alternate)
+		ret = write(1, "0x", 2);
+	if (ret == -1)
+		return (-1);
 	if (use_upper)
 		hex = "0123456789ABCDEF";
 	else
 		hex = "0123456789abcdef";
 	if (val == 0)
 		return (write(1, "0", 1));
-	return (puthex_recursive(val, hex));
+	return (ret + puthex_recursive(val, hex));
 }

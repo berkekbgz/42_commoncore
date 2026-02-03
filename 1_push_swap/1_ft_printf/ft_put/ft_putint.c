@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:47:39 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 17:18:19 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/02/02 22:06:13 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	ft_putuint(unsigned int u)
 	if (ret == -1)
 		return (-1);
 	return (count + ret);
-
 }
 
 int	ft_putint(int i)
