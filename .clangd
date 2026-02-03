@@ -1,0 +1,6 @@
+CompileFlags:
+  Add:
+    - -I../libft
+    - -Ilibft
+    - -Ift_printf
+    - -I../ft_printf
