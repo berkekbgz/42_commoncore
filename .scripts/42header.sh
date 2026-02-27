@@ -24,8 +24,19 @@ FILEPATH="${1:-filename.c}"
 FILENAME=$(basename "$FILEPATH")
 TIMESTAMP=$(date "+%Y/%m/%d %H:%M:%S")
 
-pad_to() {
-    printf "%-${2}s" "$1"
+# Compose a 76-char line: left-aligned text + right-aligned ASCII art.
+# If text is too long, trims art from the left at symbol boundaries.
+compose_line() {
+    local text="$1" art="$2" width=76
+    local tlen=${#text} alen=${#art}
+    local overflow=$((tlen + alen - width))
+    if [ $overflow -gt 0 ]; then
+        art="${art:$overflow}"
+        while [ ${#art} -gt 0 ] && [ "${art:0:1}" != " " ]; do
+            art="${art:1}"
+        done
+    fi
+    printf "%-$((width - ${#art}))s%s" "$text" "$art"
 }
 
 generate_header() {
@@ -38,10 +49,10 @@ generate_header() {
     local L5="                                                    +:+ +:+         +:+     "
     local L7="                                                +#+#+#+#+#+   +#+           "
 
-    local L4="$(pad_to "   $fname" 54):+:      :+:    :+:   "
-    local L6="$(pad_to "   By: $USER42 <$EMAIL42>" 50)+#+  +:+       +#+        "
-    local L8="$(pad_to "   Created: $created_ts by $USER42" 53)#+#    #+#             "
-    local L9="$(pad_to "   Updated: $updated_ts by $USER42" 52)###   ########.fr       "
+    local L4="$(compose_line "   $fname" ":+:      :+:    :+:   ")"
+    local L6="$(compose_line "   By: $USER42 <$EMAIL42>" "+#+  +:+       +#+        ")"
+    local L8="$(compose_line "   Created: $created_ts by $USER42" "#+#    #+#             ")"
+    local L9="$(compose_line "   Updated: $updated_ts by $USER42" "###   ########.fr       ")"
 
     cat << EOF
 /* ************************************************************************** */
@@ -59,7 +70,7 @@ EOF
 }
 
 generate_updated_line() {
-    echo "/*$(pad_to "   Updated: $1 by $USER42" 52)###   ########.fr       */"
+    echo "/*$(compose_line "   Updated: $1 by $USER42" "###   ########.fr       ")*/"
 }
 
 if [ "$UPDATE_MODE" = true ]; then

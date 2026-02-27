@@ -59,7 +59,6 @@ HASH="${EXISTING_HASH:--}"
 
 state_write "$PROJECT" "$REMOTE" "$HASH" "$SYMLINK_MAP"
 git_commit_state "state: register $PROJECT"
-git_push_state
 
 echo ""
 echo -e "${GREEN}${BOLD}✓ Registered $PROJECT${RESET}"
