@@ -1,0 +1,70 @@
+#!/bin/bash
+# register42 - register a group project's symlink map in state
+#              without touching vogsphere. Run once at project start
+#              so pull42 can restore symlinks correctly.
+# Usage: register42 <project> [extra-deps...]
+
+set -e
+source "$(dirname "$(readlink -f "$0")")/.42lib.sh"
+
+PROJECT=$1
+GIVEN_REMOTE=$2
+shift 2 2>/dev/null || shift $# 2>/dev/null
+MANUAL_DEPS=("$@")
+
+if [ -z "$PROJECT" ]; then
+    echo -e "${RED}Usage:${RESET} register42 <project> [vogsphere_url] [extra-deps...]"
+    echo -e "${DIM}Example: register42 2_pipex git@vogsphere.../uuid${RESET}"
+    echo -e "${DIM}URL is saved to .42state and reused by submit42/pull42${RESET}"
+    exit 1
+fi
+
+if [ ! -d "$PROJECT" ]; then
+    echo -e "${RED}Error:${RESET} Project folder '${YELLOW}$PROJECT${RESET}' not found"
+    echo -e "${DIM}Available folders:${RESET}"
+    ls -d */ 2>/dev/null | sed 's/^/  /'
+    exit 1
+fi
+
+# Resolve remote: use given URL, or look up from existing state
+if [ -n "$GIVEN_REMOTE" ]; then
+    REMOTE="$GIVEN_REMOTE"
+else
+    REMOTE=$(get_remote "$PROJECT") || exit 1
+fi
+
+# ── Detect symlinks ───────────────────────────────────────────────────────────
+run_dep_scan "$PROJECT"
+SYMLINK_MAP=$(build_symlink_map)
+# ──────────────────────────────────────────────────────────────────────────────
+
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+echo -e "${BOLD}  📋 Registering:${RESET} ${GREEN}$PROJECT${RESET}"
+echo -e "${BOLD}  🌐 Remote:${RESET}     ${DIM}$REMOTE${RESET}"
+if [ "${#AUTO_DEPS[@]}" -gt 0 ]; then
+    for dep in "${AUTO_DEPS[@]}"; do
+        echo -e "${BOLD}  🔗 Symlink:${RESET}    ${YELLOW}${SYMLINK_ORIGINS[$dep]}${RESET} → ${dep} ${DIM}(as ${DEP_RENAME[$dep]})${RESET}"
+    done
+else
+    echo -e "${BOLD}  🔗 Symlinks:${RESET}   ${DIM}none detected${RESET}"
+fi
+for dep in "${MANUAL_DEPS[@]}"; do
+    echo -e "${BOLD}  📎 Manual dep:${RESET} ${YELLOW}${dep}${RESET}"
+done
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+
+# Preserve existing hash if project was already pushed
+EXISTING_HASH=$(state_get_hash "$PROJECT")
+HASH="${EXISTING_HASH:--}"
+
+state_write "$PROJECT" "$REMOTE" "$HASH" "$SYMLINK_MAP"
+git_commit_state "state: register $PROJECT"
+git_push_state
+
+echo ""
+echo -e "${GREEN}${BOLD}✓ Registered $PROJECT${RESET}"
+if [ "$HASH" = "-" ]; then
+    echo -e "${DIM}No one has pushed yet. Run pull42 $PROJECT after your teammate pushes.${RESET}"
+else
+    echo -e "${DIM}State updated with symlink map. Run pull42 $PROJECT to sync.${RESET}"
+fi

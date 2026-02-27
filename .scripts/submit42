@@ -1,0 +1,146 @@
+#!/bin/bash
+# submit42 - submit project to vogsphere with history
+# Usage: submit42 <project> [extra-deps...]
+
+set -e
+source "$(dirname "$(readlink -f "$0")")/.42lib.sh"
+
+PROJECT=$1
+shift
+MANUAL_DEPS=("$@")
+
+if [ -z "$PROJECT" ]; then
+    echo -e "${RED}Usage:${RESET} submit42 <project> [extra-deps...]"
+    echo -e "${DIM}Example: submit42 0_libft${RESET}"
+    echo -e "${DIM}Run register42 <project> <url> first${RESET}"
+    exit 1
+fi
+
+if [ ! -d "$PROJECT" ]; then
+    echo -e "${RED}Error:${RESET} Project folder '${YELLOW}$PROJECT${RESET}' not found"
+    echo -e "${DIM}Available folders:${RESET}"
+    ls -d */ 2>/dev/null | sed 's/^/  /'
+    exit 1
+fi
+
+REMOTE=$(get_remote "$PROJECT") || exit 1
+
+# ── Detect symlinks ───────────────────────────────────────────────────────────
+run_dep_scan "$PROJECT"
+DEPS=($(echo "${AUTO_DEPS[@]}" "${MANUAL_DEPS[@]}" | tr ' ' '\n' | sort -u))
+
+for dep in "${DEPS[@]}"; do
+    if [ ! -d "$dep" ]; then
+        echo -e "${RED}Error:${RESET} Dependency '${YELLOW}$dep${RESET}' not found"
+        exit 1
+    fi
+done
+# ──────────────────────────────────────────────────────────────────────────────
+
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+echo -e "${BOLD}  📦 Project:${RESET}  ${GREEN}$PROJECT${RESET}"
+echo -e "${BOLD}  🌐 Remote:${RESET}   ${DIM}$REMOTE${RESET}"
+for dep in "${AUTO_DEPS[@]}"; do
+    echo -e "${BOLD}  🔗 Auto-dep:${RESET} ${YELLOW}${dep}${RESET} ${DIM}(${SYMLINK_ORIGINS[$dep]} → ${DEP_RENAME[$dep]})${RESET}"
+done
+for dep in "${MANUAL_DEPS[@]}"; do
+    echo -e "${BOLD}  📎 Manual dep:${RESET} ${YELLOW}${dep}${RESET}"
+done
+[ "${#DEPS[@]}" -eq 0 ] && echo -e "${BOLD}  🔗 Dependencies:${RESET} ${DIM}none${RESET}"
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+
+rm -rf /tmp/42submit
+git clone . /tmp/42submit --quiet
+cd /tmp/42submit
+
+PATHS="--path $PROJECT/"
+for dep in "${DEPS[@]}"; do PATHS="$PATHS --path $dep/"; done
+
+echo -e "${DIM}Filtering history...${RESET}"
+git filter-repo $PATHS --force --quiet 2>/dev/null || git filter-repo $PATHS --force
+
+# ── Move deps into project folder ─────────────────────────────────────────────
+for dep in "${DEPS[@]}"; do
+    if [ -d "$dep" ]; then
+        link_name="${DEP_RENAME[$dep]:-$dep}"
+        rm -rf "$PROJECT/$link_name"
+        mv "$dep" "$PROJECT/$link_name"
+        git add -A
+        git commit --quiet -m "bundle $dep as $link_name"
+    fi
+done
+
+# ── Fix broken symlinks (transitive deps) ────────────────────────────────────
+while IFS= read -r link; do
+    [ -e "$link" ] && continue  # not broken, skip
+
+    target_base=$(basename "$(readlink "$link")")
+
+    # Look up if target matches a dep that was renamed
+    new_name=""
+    for dep in "${AUTO_DEPS[@]}"; do
+        [[ "$target_base" == "$dep" ]] && new_name="${DEP_RENAME[$dep]}" && break
+    done
+    [ -z "$new_name" ] && continue
+
+    rm -f "$link"
+    ln -sf "../$new_name" "$link"
+    git add -A
+    rel="${link#$PROJECT/}"
+    git commit --quiet -m "fix symlink $rel -> ../$new_name"
+    echo -e "  ${GREEN}🔗${RESET}  $rel → ../$new_name"
+done < <(find "$PROJECT" -type l 2>/dev/null)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Flatten to root
+shopt -s dotglob
+mv "$PROJECT"/* . 2>/dev/null || true
+rmdir "$PROJECT" 2>/dev/null || true
+git add -A
+git commit --quiet -m "flatten for submission" 2>/dev/null || true
+
+FILE_COUNT=$(git ls-files | wc -l | xargs)
+if [ "$FILE_COUNT" -eq 0 ]; then
+    echo -e "${RED}Error:${RESET} No files after processing."
+    cd "$ORIG_DIR"; rm -rf /tmp/42submit; exit 1
+fi
+
+echo ""
+echo -e "${BOLD}${MAGENTA}📝 Commits to submit:${RESET}"
+echo -e "${DIM}───────────────────────────────────────────${RESET}"
+git --no-pager -c color.ui=always log \
+    --format="%C(yellow)%h%C(reset) %C(bold)%s%C(reset) %C(dim)(%cr)%C(reset)" \
+    --stat=80 --stat-count=10 --stat-graph-width=15 \
+    --color=always | head -150
+echo -e "${DIM}───────────────────────────────────────────${RESET}"
+
+COMMIT_COUNT=$(git rev-list --count HEAD)
+echo ""
+echo -e "${BOLD}📊 Summary:${RESET}"
+echo -e "   ${BLUE}Commits:${RESET} ${COMMIT_COUNT}"
+echo -e "   ${BLUE}Files:${RESET}   ${FILE_COUNT}"
+echo ""
+
+echo -ne "${BOLD}Push to vogsphere? [y/N]${RESET} "
+read -n 1 -r; echo ""
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${DIM}Pushing...${RESET}"
+    git push -f "$REMOTE" HEAD:main 2>&1 | sed "s/^/  /"
+
+    PUSHED_HASH=$(git rev-parse HEAD)
+    SYMLINK_MAP=$(build_symlink_map)
+
+    cd "$ORIG_DIR"
+    state_write "$PROJECT" "$REMOTE" "$PUSHED_HASH" "$SYMLINK_MAP"
+    git_commit_state "state: update $PROJECT after vogsphere push"
+    git_push_state
+
+    echo ""
+    echo -e "${GREEN}${BOLD}✓ Submitted $PROJECT ($COMMIT_COUNT commits)${RESET}"
+else
+    echo -e "${RED}✗ Cancelled${RESET}"
+    cd "$ORIG_DIR"
+fi
+
+rm -rf /tmp/42submit

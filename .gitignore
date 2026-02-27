@@ -3,6 +3,8 @@
 !*/
 !/.gitignore
 !/.clangd
+!/.vscode/*
+!/.scripts/*
 
 # pdfs
 
@@ -30,3 +32,5 @@
 !/1_ft_printf/README.md
 !/1_ft_printf/ft_put/ft_*.c
 !/1_ft_printf/ft_put/ft_*.h
+
+!/x_vogsphere_test/*

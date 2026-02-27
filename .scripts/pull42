@@ -1,0 +1,207 @@
+#!/bin/bash
+# pull42 - pull group project changes from vogsphere into monorepo
+# Usage: pull42 <project>
+
+set -e
+source "$(dirname "$(readlink -f "$0")")/.42lib.sh"
+
+PROJECT=$1
+
+if [ -z "$PROJECT" ]; then
+    echo -e "${RED}Usage:${RESET} pull42 <project>"
+    echo -e "${DIM}Example: pull42 2_pipex${RESET}"
+    echo -e "${DIM}Run register42 <project> <url> first${RESET}"
+    exit 1
+fi
+
+REMOTE=$(get_remote "$PROJECT") || exit 1
+LAST_HASH=$(state_get_hash "$PROJECT")
+SYMLINK_MAP=$(state_get_symmap "$PROJECT")
+TMP_DIR="/tmp/42sync_${PROJECT}"
+
+# Warn if no symlink map and project folder already exists
+if [ -z "$SYMLINK_MAP" ] && [ -d "$ORIG_DIR/$PROJECT" ]; then
+    echo -e "${YELLOW}⚠ No symlink map found for '$PROJECT'.${RESET}"
+    echo -e "${DIM}If this project has symlinked deps (e.g. libft), run register42 first.${RESET}"
+    echo -ne "${BOLD}Continue anyway? [y/N]${RESET} "
+    read -n 1 -r; echo ""
+    [[ ! $REPLY =~ ^[Yy]$ ]] && exit 0
+fi
+
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+echo -e "${BOLD}  📥 Pulling:${RESET}  ${GREEN}$PROJECT${RESET}"
+echo -e "${BOLD}  🌐 Remote:${RESET}   ${DIM}$REMOTE${RESET}"
+[ -n "$LAST_HASH" ] && \
+echo -e "${BOLD}  📌 Last:${RESET}     ${DIM}${LAST_HASH:0:8}...${RESET}"
+echo -e "${BOLD}${CYAN}═══════════════════════════════════════════${RESET}"
+
+# ── Clone vogsphere ───────────────────────────────────────────────────────────
+echo -e "${DIM}Cloning from vogsphere...${RESET}"
+rm -rf "$TMP_DIR"
+git clone "$REMOTE" "$TMP_DIR" --quiet
+cd "$TMP_DIR"
+
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null || echo "master")
+CURRENT_HASH=$(git rev-parse HEAD)
+
+if [ "$CURRENT_HASH" = "$LAST_HASH" ]; then
+    echo -e "${GREEN}✓ Already up to date${RESET} ${DIM}(${CURRENT_HASH:0:8})${RESET}"
+    cd "$ORIG_DIR"; rm -rf "$TMP_DIR"; exit 0
+fi
+
+# Show new commits
+echo ""
+if [ -n "$LAST_HASH" ]; then
+    echo -e "${BOLD}${MAGENTA}📝 New commits since last pull:${RESET}"
+    echo -e "${DIM}───────────────────────────────────────────${RESET}"
+    git --no-pager -c color.ui=always log \
+        --format="%C(yellow)%h%C(reset) %C(bold)%s%C(reset) %C(dim)(%cr, %an)%C(reset)" \
+        "${LAST_HASH}..HEAD" \
+        --stat=80 --stat-count=10 --stat-graph-width=15 \
+        --color=always 2>/dev/null | head -80 \
+        || git --no-pager log --oneline -20
+else
+    echo -e "${BOLD}${MAGENTA}📝 All commits (first pull):${RESET}"
+    echo -e "${DIM}───────────────────────────────────────────${RESET}"
+    git --no-pager -c color.ui=always log \
+        --format="%C(yellow)%h%C(reset) %C(bold)%s%C(reset) %C(dim)(%cr, %an)%C(reset)" \
+        --stat=80 --stat-count=10 --stat-graph-width=15 \
+        --color=always | head -80
+fi
+
+COMMIT_COUNT=$(git rev-list --count HEAD)
+FILE_COUNT=$(git ls-files | wc -l | xargs)
+echo -e "${DIM}───────────────────────────────────────────${RESET}"
+echo ""
+echo -e "${BOLD}📊 Summary:${RESET}"
+echo -e "   ${BLUE}Commits:${RESET}        ${COMMIT_COUNT}"
+echo -e "   ${BLUE}Files:${RESET}          ${FILE_COUNT}"
+echo -e "   ${BLUE}Vogsphere HEAD:${RESET} ${CURRENT_HASH:0:8}"
+echo ""
+
+echo -ne "${BOLD}Merge into monorepo? [y/N]${RESET} "
+read -n 1 -r; echo ""
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${RED}✗ Cancelled${RESET}"
+    cd "$ORIG_DIR"; rm -rf "$TMP_DIR"; exit 0
+fi
+
+# ── Rewrite: place everything under PROJECT/ ──────────────────────────────────
+echo -e "${DIM}Restructuring into ${PROJECT}/...${RESET}"
+git filter-repo --to-subdirectory-filter "$PROJECT/" --force --quiet 2>/dev/null \
+    || git filter-repo --to-subdirectory-filter "$PROJECT/" --force
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Merge into monorepo ───────────────────────────────────────────────────────
+cd "$ORIG_DIR"
+
+# Remove symlinks before merge to prevent file/directory conflicts
+if [ -n "$SYMLINK_MAP" ]; then
+    IFS=',' read -ra _PRE_SYMLINKS <<< "$SYMLINK_MAP"
+    for entry in "${_PRE_SYMLINKS[@]}"; do
+        origin="${entry%%:*}"
+        if [ -L "$ORIG_DIR/$origin" ]; then
+            rm "$ORIG_DIR/$origin"
+            git add "$origin"
+        fi
+    done
+    git commit --quiet -m "sync: remove symlinks before merge" 2>/dev/null || true
+fi
+
+REMOTE_NAME="__sync_${PROJECT}"
+git remote add "$REMOTE_NAME" "$TMP_DIR" 2>/dev/null \
+    || git remote set-url "$REMOTE_NAME" "$TMP_DIR"
+
+echo -e "${DIM}Merging into monorepo...${RESET}"
+git fetch "$REMOTE_NAME" --quiet
+git merge --allow-unrelated-histories --no-edit \
+    -m "sync: merge ${PROJECT} from vogsphere (${CURRENT_HASH:0:8})" \
+    "${REMOTE_NAME}/${BRANCH}" 2>&1 | sed "s/^/  /"
+
+git remote remove "$REMOTE_NAME"
+rm -rf "$TMP_DIR"
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Restore symlinks ──────────────────────────────────────────────────────────
+if [ -n "$SYMLINK_MAP" ]; then
+    echo -e "${DIM}Restoring symlinks...${RESET}"
+
+    IFS=',' read -ra SYMLINKS <<< "$SYMLINK_MAP"
+    for entry in "${SYMLINKS[@]}"; do
+        origin="${entry%%:*}"
+        target="${entry##*:}"
+
+        link_name=$(basename "$origin")
+        link_parent=$(dirname "$origin")
+
+        merged_dir="$ORIG_DIR/$PROJECT/$link_name"
+        actual_dir="$ORIG_DIR/$target"
+        restore_link="$ORIG_DIR/$origin"
+        restore_parent_dir="$ORIG_DIR/$link_parent"
+
+        if [ ! -d "$merged_dir" ]; then
+            echo -e "  ${YELLOW}⚠${RESET}  Expected $PROJECT/$link_name — not found, skipping"
+            continue
+        fi
+
+        # Propagate changes to actual target
+        if [ -d "$actual_dir" ]; then
+            changed=false
+            while IFS= read -r file; do
+                rel="${file#${merged_dir}/}"
+                src="$merged_dir/$rel"
+                dst="$actual_dir/$rel"
+                mkdir -p "$(dirname "$dst")"
+                if [ ! -f "$dst" ] || ! cmp -s "$src" "$dst"; then
+                    cp "$src" "$dst"
+                    changed=true
+                    echo -e "  ${BLUE}↑${RESET}  $target/$rel"
+                fi
+            done < <(find "$merged_dir" -type f)
+
+            while IFS= read -r file; do
+                rel="${file#${actual_dir}/}"
+                if [ ! -f "$merged_dir/$rel" ]; then
+                    rm "$actual_dir/$rel"
+                    changed=true
+                    echo -e "  ${RED}✗${RESET}  $target/$rel ${DIM}(removed)${RESET}"
+                fi
+            done < <(find "$actual_dir" -type f)
+
+            $changed && git add "$actual_dir"
+        else
+            mv "$merged_dir" "$actual_dir"
+            echo -e "  ${GREEN}+${RESET}  created $target"
+            git add "$actual_dir"
+        fi
+
+        rm -rf "$merged_dir"
+
+        mkdir -p "$restore_parent_dir"
+        rel_target=$(python3 -c \
+            "import os; print(os.path.relpath('$actual_dir', '$restore_parent_dir'))" \
+            2>/dev/null \
+            || realpath --relative-to="$restore_parent_dir" "$actual_dir")
+
+        ln -sf "$rel_target" "$restore_link"
+        git add "$restore_link"
+        echo -e "  ${GREEN}🔗${RESET}  $origin → $rel_target ${DIM}(target: $target)${RESET}"
+    done
+
+    git commit --quiet -m "sync: restore symlinks in $PROJECT" 2>/dev/null || true
+fi
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Update state ──────────────────────────────────────────────────────────────
+# Preserve existing symlink map if we have no new one
+[ -z "$SYMLINK_MAP" ] && SYMLINK_MAP=$(state_get_symmap "$PROJECT")
+[ -z "$SYMLINK_MAP" ] && SYMLINK_MAP="-"
+
+state_write "$PROJECT" "$REMOTE" "$CURRENT_HASH" "$SYMLINK_MAP"
+git_commit_state "state: update $PROJECT after vogsphere pull"
+# ──────────────────────────────────────────────────────────────────────────────
+
+echo ""
+echo -e "${GREEN}${BOLD}✓ Pulled ${PROJECT} (vogsphere @ ${CURRENT_HASH:0:8})${RESET}"
+echo -e "${DIM}Push to GitHub: git push origin main${RESET}"
