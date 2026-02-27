@@ -1,7 +1,7 @@
 #!/bin/bash
 
 USER42="bkabagoz"
-EMAIL42="bkabagoz@student.42istanbul.com"
+EMAIL42="bkabagoz@student.42istanbul.com.tr"
 
 INSERT_MODE=false
 UPDATE_MODE=false

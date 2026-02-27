@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
+/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/01 23:47:10 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 17:50:24 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/02/27 16:51:58 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
