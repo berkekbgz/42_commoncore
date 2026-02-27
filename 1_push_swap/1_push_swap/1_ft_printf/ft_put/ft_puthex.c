@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
+/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 00:18:42 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/02 17:51:10 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/02/27 16:51:58 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

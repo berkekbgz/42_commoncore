@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com> +#+  +:+       +#+        */
+/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/01 19:24:12 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/01 20:50:22 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/02/27 16:51:58 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
