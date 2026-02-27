@@ -5,6 +5,8 @@
 !/.clangd
 !/.vscode/*
 !/.scripts/*
+!/.github/**
+!/README.md
 
 # pdfs
 
