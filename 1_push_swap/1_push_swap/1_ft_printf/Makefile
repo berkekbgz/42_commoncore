@@ -19,6 +19,7 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJ)
+	cp $(LIBFT) $(NAME)
 	ar rcs $(NAME) $(OBJ)
 
 clean:
