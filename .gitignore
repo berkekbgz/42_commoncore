@@ -36,4 +36,9 @@
 !/1_ft_printf/ft_put/ft_*.c
 !/1_ft_printf/ft_put/ft_*.h
 
-!/x_vogsphere_test/*
+# get_next_line directory
+
+/1_get_next_line/*
+!/1_get_next_line/get_next_line.c
+!/1_get_next_line/get_next_line_utils.c
+!/1_get_next_line/get_next_line.h

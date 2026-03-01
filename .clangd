@@ -1,6 +1,15 @@
 CompileFlags:
   Add:
+    - -I../0_libft
     - -I../libft
     - -Ilibft
+
+    - -I1_ft_printf
     - -Ift_printf
     - -I../ft_printf
+
+    - -I1_get_next_line
+    - -Iget_next_line
+    - -I../get_next_line
+
+
