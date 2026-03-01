@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/27 16:51:58 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/01 19:28:33 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_puthex(unsigned long long val, char use_upper, char use_alternate)
 	char	*hex;
 	char	ret;
 
+	ret = 0;
 	if (use_alternate)
 		ret = write(1, "0x", 2);
 	if (ret == -1)
