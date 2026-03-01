@@ -6,15 +6,13 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/28 20:43:04 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/01 19:32:23 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "ft_put/ft_put.h"
-#include "libft.h"
 #include <stdarg.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
