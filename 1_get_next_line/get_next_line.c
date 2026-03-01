@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 21:41:10 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/01 22:22:06 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/01 22:48:31 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	has_newline(char *s, size_t *size)
 {
 	*size = 0;
 	while (s[*size] && s[*size] != '\n')
-		size++;
+		(*size)++;
 	return (s[*size] == '\n');
 }
 
