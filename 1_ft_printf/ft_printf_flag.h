@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_puthex.c                                        :+:      :+:    :+:   */
+/*   ft_printf_flag.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,39 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_put.h"
-#include <unistd.h>
+#ifndef FT_PRINTF_FLAG_H
+# define FT_PRINTF_FLAG_H
 
-static int	puthex_recursive(unsigned long long val, char *hex)
+typedef struct s_printf_arg
 {
-	int	count;
-	int	ret;
+	int		hash;
+	int		zero;
+	int		minus;
+	int		plus;
+	int		space;
+	int		width;
+	int		precision;
+}	t_printf_flag;
 
-	count = 0;
-	if (val >= 16)
-		count = puthex_recursive(val / 16, hex);
-	if (count == -1)
-		return (-1);
-	ret = write(1, &hex[val % 16], 1);
-	if (ret == -1)
-		return (-1);
-	return (count + ret);
-}
+t_printf_flag	consume_flag(const char	**peek);
 
-int	ft_puthex(unsigned long long val, char use_upper, char use_alternate)
-{
-	char	*hex;
-	char	ret;
-
-	if (use_alternate)
-		ret = write(1, "0x", 2);
-	if (ret == -1)
-		return (-1);
-	if (use_upper)
-		hex = "0123456789ABCDEF";
-	else
-		hex = "0123456789abcdef";
-	if (val == 0)
-		return (write(1, "0", 1));
-	return (ret + puthex_recursive(val, hex));
-}
+#endif

@@ -6,22 +6,26 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/02/28 20:43:04 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/02/27 16:51:58 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "ft_put/ft_put.h"
+#include "ft_printf_flag.h"
 #include "libft.h"
 #include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
+static int	try_parse_formatting(const char *peek, va_list *args,
+	int *consume)
 {
+	t_printf_flag	flag;
 	const char		*start;
 
 	start = peek;
+	flag = consume_flag(&peek);
 	*consume = (peek - start) + 2;
 	if (*peek == '%')
 		return (write(1, "%", 1));
@@ -36,11 +40,11 @@ static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
 	else if (*peek == 'u')
 		return (ft_putuint(va_arg(*args, unsigned int)));
 	else if (*peek == 'x')
-		return (ft_puthex(va_arg(*args, unsigned int), 0, 0));
+		return (ft_puthex(va_arg(*args, unsigned int), 0, flag.hash));
 	else if (*peek == 'X')
-		return (ft_puthex(va_arg(*args, unsigned int), 1, 0));
+		return (ft_puthex(va_arg(*args, unsigned int), 1, flag.hash));
 	*consume = 1;
-	return (0);
+	return (write(1, "%", 1));
 }
 
 int	ft_printf(const char *format, ...)
