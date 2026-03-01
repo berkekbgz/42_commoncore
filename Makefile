@@ -40,4 +40,4 @@ norm:
 	norminette $(LIBFT_DIR) $(FT_PRINTF_DIR)
 
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re $(LIBFT) $(FT_PRINTF)
