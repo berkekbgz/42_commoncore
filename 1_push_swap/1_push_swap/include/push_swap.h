@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 19:34:55 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/07 20:29:46 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ typedef struct s_state
 	int		op_count;
 	int		op_counts[N_OP_COUNT];
 }			t_state;
+
+// Sort functions
+
+void	sort_simple(t_state *state);
+void	sort_medium(t_state *state);
+void	sort_complex(t_state *state);
+void	sort_adaptive(t_state *state);
 
 // Swap functions
 
