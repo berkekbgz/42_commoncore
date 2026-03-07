@@ -18,8 +18,8 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(FT_PRINTF) $(GNL_OBJ) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(GNL_OBJ) $(FT_PRINTF) $(LIBFT) -o $(NAME)
+$(NAME): $(LIBFT) $(FT_PRINTF) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(FT_PRINTF) $(LIBFT) -o $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
