@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ops_swap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
+/*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:06:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 20:06:06 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/07 21:11:50 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "ft_printf.h"
 
 static void	swap_top(t_stack *stack)
 {
