@@ -5,52 +5,81 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/01 21:41:10 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 20:53:17 by bkabagoz         ###   ########.fr       */
+/*   Created: 2026/03/07 22:01:26 by bkabagoz          #+#    #+#             */
+/*   Updated: 2026/03/07 22:01:27 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <linux/limits.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "get_next_line.h"
 
-#define BUFFER_SIZE 1024
-
-#ifndef OPEN_MAX
-# define OPEN_MAX 1024
-#endif
-
-int	has_newline(char *s, size_t *size)
+static int	allocate_remainder(char ***remainder)
 {
-	*size = 0;
-	while (s[*size] && s[*size] != '\n')
-		(*size)++;
-	return (s[*size] == '\n');
+	long	max_fd;
+	long	i;
+
+	max_fd = sysconf(_SC_OPEN_MAX);
+	if (!*remainder)
+	{
+		*remainder = malloc(sizeof(char *) * max_fd);
+		if (!*remainder)
+			return (0);
+		i = 0;
+		while (i < max_fd)
+			(*remainder)[i++] = NULL;
+	}
+	return (1);
+}
+
+static char	*extract_line(char **remainder)
+{
+	char	*line;
+	char	*left;
+	size_t	i;
+
+	i = 0;
+	while ((*remainder)[i] && (*remainder)[i] != '\n')
+		i++;
+	if ((*remainder)[i] == '\n')
+		i++;
+	line = gnl_strndup(*remainder, i);
+	if (!line)
+		return (NULL);
+	left = gnl_strdup(*remainder + i);
+	free(*remainder);
+	if (!left || !left[0])
+	{
+		free(left);
+		*remainder = NULL;
+	}
+	else
+		*remainder = left;
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder[OPEN_MAX];
-	char		*buf;
-	char		*ret;
-	int			i;
-	size_t		size;
+	static char	**remainder;
+	char		buf[BUFFER_SIZE + 1];
+	ssize_t		ret;
 
-	i = 0;
+	if (fd < 0 || fd >= sysconf(_SC_OPEN_MAX))
+		return (NULL);
+	if (!allocate_remainder(&remainder))
+		return (NULL);
 	while (1)
 	{
-		buf = (char *)malloc(sizeof(char) * BUFFER_SIZE);
-		if (!buf)
-			return (NULL);
-		read(fd, buf, sizeof(buf));
-		if (!has_newline(buf, &size))
+		if (remainder[fd] && has_newline(remainder[fd]))
+			return (extract_line(&remainder[fd]));
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret <= 0)
 		{
-			remainder[fd] = buf; // TODO: concat here
-			continue ;
+			if (ret == 0 && remainder[fd] && remainder[fd][0])
+				return (extract_line(&remainder[fd]));
+			return (NULL);
 		}
-		// TODO: return here and adjust remainder
-		i++;
+		buf[ret] = '\0';
+		remainder[fd] = strjoin_free(remainder[fd], buf, ret);
+		if (!remainder[fd])
+			return (NULL);
 	}
-
-	return (NULL);
 }
