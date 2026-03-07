@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ops_swap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
+/*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 19:09:49 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 19:41:02 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/07 20:02:45 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
