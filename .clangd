@@ -1,5 +1,10 @@
 CompileFlags:
   Add:
+    - -I../include
+    - -Wall
+    - -Wextra
+    - -Werror
+
     - -I../0_libft
     - -I../libft
     - -Ilibft

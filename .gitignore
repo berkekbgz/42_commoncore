@@ -42,3 +42,17 @@
 !/1_get_next_line/get_next_line.c
 !/1_get_next_line/get_next_line_utils.c
 !/1_get_next_line/get_next_line.h
+
+# push_swap directory
+
+/1_push_swap/*.*
+!/1_push_swap/include/push_swap.h
+!/1_push_swap/src/ops_*.c
+!/1_push_swap/src/sort_*.c
+!/1_push_swap/src/main.c
+!/1_push_swap/src/utils.c
+!/1_push_swap/src/disorder.c
+!/1_push_swap/src/init.c
+!/1_push_swap/ft_printf
+!/1_push_swap/README.md
+!/1_push_swap/Makefile
