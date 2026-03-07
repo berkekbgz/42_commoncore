@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/01 19:32:23 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/07 20:16:45 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
 	else if (*peek == 'X')
 		return (ft_puthex(va_arg(*args, unsigned int), 1, 0));
 	*consume = 1;
-	return (0);
+	if (*peek)
+		return (write(1, "%", 1));
+	return (-1);
 }
 
 int	ft_printf(const char *format, ...)
@@ -56,7 +58,7 @@ int	ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			consume = 0;
+			consume = 1;
 			ret = try_parse_formatting(format + 1, &args, &consume);
 			format += consume;
 		}
