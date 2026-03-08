@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/08 11:03:20 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/08 11:15:48 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_state
 {
 	t_stack	*a;
 	t_stack	*b;
+	double	disorder;
 	int		op_count;
 	int		op_counts[N_OP_COUNT];
 }			t_state;
