@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 20:29:46 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/08 11:03:20 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_node
 	int				value;
 	int				rank;
 	struct s_node	*next;
-	struct s_nde	*prev;
+	struct s_node	*prev;
 }				t_node;
 
 typedef struct s_stack
