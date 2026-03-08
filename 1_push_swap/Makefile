@@ -2,7 +2,13 @@ NAME        	= push_swap
 CC          	= cc
 CFLAGS      	= -Wall -Wextra -Werror -Iinclude -Ift_printf
 
-SRCS        	= src/main.c src/init.c src/ops_push.c src/ops_swap.c src/sort_basic.c 
+SRCS        	= 	src/main.c \
+					src/init.c \
+					src/ops_push.c \
+					src/ops_rotate.c \
+					src/ops_reverse_rotate.c \
+					src/ops_swap.c \
+					src/sort_basic.c
 OBJS        	= $(SRCS:.c=.o)
 
 LIBFT_DIR		= libft
