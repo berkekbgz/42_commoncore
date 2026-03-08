@@ -6,13 +6,6 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 12:33:36 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/08 12:34:26 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/08 13:11:27 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "push_swap.h"
-
-void	sort_medium(t_state *state)
-{
-
-}

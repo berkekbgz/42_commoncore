@@ -9,7 +9,9 @@ SRCS        	= 	src/main.c \
 					src/ops_reverse_rotate.c \
 					src/ops_swap.c \
 					src/sort_simple.c \
-					src/utils.c
+					src/sort_medium.c \
+					src/utils.c \
+					src/data_utils.c
 OBJS        	= $(SRCS:.c=.o)
 
 FT_PRINTF_DIR	= ft_printf
