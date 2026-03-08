@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/08 11:15:48 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:38:51 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ void	op_rr(t_state *state);
 void	op_rra(t_state *state);
 void	op_rrb(t_state *state);
 void	op_rrr(t_state *state);
+
+// Utils
+
+int		sqrt_floor(int value);
 
 
 #endif

@@ -8,19 +8,17 @@ SRCS        	= 	src/main.c \
 					src/ops_rotate.c \
 					src/ops_reverse_rotate.c \
 					src/ops_swap.c \
-					src/sort_basic.c
+					src/sort_simple.c \
+					src/utils.c
 OBJS        	= $(SRCS:.c=.o)
-
-LIBFT_DIR		= libft
-LIBFT			= $(LIBFT_DIR)/libft.a
 
 FT_PRINTF_DIR	= ft_printf
 FT_PRINTF		= $(FT_PRINTF_DIR)/libftprintf.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(FT_PRINTF)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(FT_PRINTF) $(LIBFT)
+$(NAME): $(OBJS) $(FT_PRINTF)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(FT_PRINTF)
 
 clean:
 	rm -f $(OBJS)
