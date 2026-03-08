@@ -6,12 +6,13 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:02:32 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/08 11:09:25 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/08 11:12:24 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "ft_printf.h"
+#include <stdlib.h>
 
 static void	push(t_stack *to, t_stack *from)
 {
