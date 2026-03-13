@@ -57,3 +57,4 @@
 !/1_push_swap/ft_printf
 !/1_push_swap/README.md
 !/1_push_swap/Makefile
+!/1_push_swap/maintester.c
