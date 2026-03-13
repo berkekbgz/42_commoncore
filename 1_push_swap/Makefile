@@ -1,6 +1,6 @@
 NAME        	= push_swap
 CC          	= cc
-CFLAGS      	= -Wall -Wextra -Werror -Iinclude -Ift_printf
+CFLAGS      	= -Wall -Wextra -Werror -Iinclude -Ift_printf -Ilibft
 
 SRCS        	= 	main.c \
 					init.c \
