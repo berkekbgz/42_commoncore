@@ -47,13 +47,13 @@
 
 /1_push_swap/*.*
 !/1_push_swap/include/push_swap.h
-!/1_push_swap/src/ops_*.c
-!/1_push_swap/src/sort_*.c
-!/1_push_swap/src/main.c
-!/1_push_swap/src/utils.c
-!/1_push_swap/src/data_utils.c
-!/1_push_swap/src/disorder.c
-!/1_push_swap/src/init.c
+!/1_push_swap/ops_*.c
+!/1_push_swap/sort_*.c
+!/1_push_swap/main.c
+!/1_push_swap/utils.c
+!/1_push_swap/data_utils.c
+!/1_push_swap/disorder.c
+!/1_push_swap/init.c
 !/1_push_swap/ft_printf
 !/1_push_swap/README.md
 !/1_push_swap/Makefile
