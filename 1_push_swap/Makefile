@@ -2,16 +2,16 @@ NAME        	= push_swap
 CC          	= cc
 CFLAGS      	= -Wall -Wextra -Werror -Iinclude -Ift_printf
 
-SRCS        	= 	src/main.c \
-					src/init.c \
-					src/ops_push.c \
-					src/ops_rotate.c \
-					src/ops_reverse_rotate.c \
-					src/ops_swap.c \
-					src/sort_simple.c \
-					src/sort_medium.c \
-					src/utils.c \
-					src/data_utils.c
+SRCS        	= 	main.c \
+					init.c \
+					ops_push.c \
+					ops_rotate.c \
+					ops_reverse_rotate.c \
+					ops_swap.c \
+					sort_simple.c \
+					sort_medium.c \
+					utils.c \
+					data_utils.c
 OBJS        	= $(SRCS:.c=.o)
 
 FT_PRINTF_DIR	= ft_printf
