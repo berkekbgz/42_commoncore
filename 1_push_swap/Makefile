@@ -14,13 +14,16 @@ SRCS        	= 	main.c \
 					data_utils.c
 OBJS        	= $(SRCS:.c=.o)
 
+LIBFT_DIR		= libft
+LIBFT			= $(LIBFT_DIR)/libft
+
 FT_PRINTF_DIR	= ft_printf
 FT_PRINTF		= $(FT_PRINTF_DIR)/libftprintf.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(FT_PRINTF)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(FT_PRINTF)
+$(NAME): $(OBJS) $(FT_PRINTF) $(LIBFT)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(FT_PRINTF) $(LIBFT)
 
 clean:
 	rm -f $(OBJS)

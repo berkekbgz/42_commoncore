@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:28:07 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/13 20:37:18 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/13 20:46:38 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,17 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 		return (0);
 	state = new_state();
-	arg_start = parse_flags(argc, argv, &state);
-	if (!parse_numbers(&state, argc, argv, arg_start))
+	arg_start = parse_flags(argc, argv, state);
+	if (!parse_numbers(state, argc, argv, arg_start))
 	{
 		write(2, "Error\n", 6);
-		free_state(&state);
+		free_state(state);
 		return (1);
 	}
-	if (state.a->size > 1 && !is_sorted(state.a))
-		execute_sort(&state);
-	if (state.bench_mode)
-		print_benchmark(&state);
-	free_state(&state);
+	if (state->a->size > 1 && !is_sorted(state->a))
+		execute_sort(state);
+	if (state->bench_mode)
+		print_benchmark(state);
+	free_state(state);
 	return (0);
 }
