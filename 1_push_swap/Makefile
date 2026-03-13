@@ -11,6 +11,8 @@ SRCS        	= 	main.c \
 					ops_swap.c \
 					sort_simple.c \
 					sort_medium.c \
+					sort_complex.c \
+					sort_adaptive.c \
 					utils.c \
 					data_utils.c
 OBJS        	= $(SRCS:.c=.o)
