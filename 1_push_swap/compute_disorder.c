@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 20:58:34 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/13 21:08:11 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/13 21:14:31 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ double	compute_disorder(t_stack *stack)
 	int		total_pairs;
 	t_node	*node_i;
 	t_node	*node_j;
-
 
 	node_i = stack->top;
 	total_pairs = 0;
