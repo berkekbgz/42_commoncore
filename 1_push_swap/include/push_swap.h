@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/08 13:08:56 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/13 20:25:31 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct s_state
 	double	disorder;
 	int		op_count;
 	int		op_counts[N_OP_COUNT];
+	int		bench_mode;
+	int		strategy_flag;
 }			t_state;
 
 // Initialization
@@ -59,6 +61,9 @@ t_node	*new_node(int value, int rank);
 t_stack	*new_stack(void);
 void	stack_push_bottom(t_stack *stack, int value, int rank);
 t_state	*new_state(void);
+
+void	assign_ranks(t_stack *stack);
+double	compute_disorder(t_stack *stack);
 
 
 // Sort functions

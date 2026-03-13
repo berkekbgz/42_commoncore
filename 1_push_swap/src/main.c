@@ -6,15 +6,13 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:28:07 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/08 13:30:18 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/03/13 20:27:07 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 
-/*
-** Gelen argümanın hangi bayrak olduğunu bulup durumu günceller.
-*/
 static void	set_strategy(char *arg, t_state *state)
 {
 	if (ft_strncmp(arg, "--bench", 8) == 0)
@@ -29,8 +27,6 @@ static void	set_strategy(char *arg, t_state *state)
 		state->strategy_flag = 0;
 }
 
-/*
-*/
 static int	parse_flags(int argc, char **argv, t_state *state)
 {
 	int	i;
@@ -49,9 +45,6 @@ static int	parse_flags(int argc, char **argv, t_state *state)
 	return (i);
 }
 
-/*
-** Gerekli hazırlıkları yapıp seçilen sıralama algoritmasını başlatır.
-*/
 static void	execute_sort(t_state *state)
 {
 	assign_ranks(state->a);
@@ -66,9 +59,6 @@ static void	execute_sort(t_state *state)
 		sort_adaptive(state);
 }
 
-/*
-** Programın ana giriş noktası (Orkestra Şefi)
-*/
 int	main(int argc, char **argv)
 {
 	t_state	state;
