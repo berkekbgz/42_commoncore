@@ -4,6 +4,7 @@ CFLAGS      	= -Wall -Wextra -Werror -Iinclude -Ift_printf
 
 SRCS        	= 	main.c \
 					init.c \
+					compute_disorder.c \
 					ops_push.c \
 					ops_rotate.c \
 					ops_reverse_rotate.c \

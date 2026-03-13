@@ -52,7 +52,7 @@
 !/1_push_swap/main.c
 !/1_push_swap/utils.c
 !/1_push_swap/data_utils.c
-!/1_push_swap/disorder.c
+!/1_push_swap/compute_disorder.c
 !/1_push_swap/init.c
 !/1_push_swap/ft_printf
 !/1_push_swap/libft
