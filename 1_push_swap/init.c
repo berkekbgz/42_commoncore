@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:02:37 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/13 21:43:46 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:54:19 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,54 @@ double	compute_disorder(t_stack *stack)
 	return (mistakes / total_pairs);
 }
 
-int	parse_numbers(t_state *state, int argc, char **argv, int arg_start)
+static int	check_arg(char *s)
 {
-	char	**list;
-
-	list = ft_split(argv[arg_start], ' ');
+	int digit_len;
+	
+	digit_len = 0;
+	while (ft_iswhitespace(*s))
+		s++;
+	if (*s == '-' || *s == '+')
+        s++;
+	if (!*s || !ft_isdigit(*s))
+        return (0);
+	while (*s)
+	{
+		if (!ft_isdigit(*s))
+			return (0);
+		digit_len++;
+		if (digit_len > 11)
+			return (0);
+		s++;
+	}
+	return (1);
 }
 
+int	parse_numbers(t_state *state, int argc, char **argv, int arg_start)
+{
+	int		i;
+	long	value;
+	long	check;
 
+	while (argv[arg_start])
+	{
+		if (!check_arg(argv[arg_start]))
+			return (0);
+		value = ft_atol(argv[arg_start]);
+		if (!ft_isint(value))
+			return (0);
+		i = arg_start + 1;
+		while (i < argc)
+		{
+			check = ft_atol(argv[i]);			
+			if (value == check)
+				return (0);
+			i++;
+		}
+		stack_push_bottom(state->a, (int)value, NULL);
+		
+		arg_start++;
+	}
 
+	return (1);
+}

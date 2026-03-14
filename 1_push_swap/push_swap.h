@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
+/*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/13 21:43:15 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:56:35 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,16 @@ void	op_rrr(t_state *state);
 int		sqrt_floor(int value);
 void	print_benchmark(t_state *state);
 int		is_sorted(t_stack *stack);
+long	ft_atol(char *str);
+int		ft_isint(long l);
+int		ft_iswhitespace(int c);
 
 // Data Utils
 
 t_node	*new_node(int value, int rank);
 t_stack	*new_stack(void);
 void	stack_push_bottom(t_stack *stack, int value, int rank);
+int		stack_push(t_stack *stack, int value);
 t_state	*new_state(void);
 void	free_state(t_state *state);
 

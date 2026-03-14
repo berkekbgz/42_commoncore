@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_utils.c                                      :+:      :+:    :+:   */
+/*   data_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
+/*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:01:31 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/08 13:10:37 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:19:34 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,28 @@ t_stack	*new_stack(void)
 	stack->bottom = NULL;
 	stack->size = 0;
 	return (stack);
+}
+
+int stack_push(t_stack *stack, int value)
+{
+	t_node *node;
+	
+	node = new_node(value, NULL);
+	if (!node)
+		return (0);
+	if (!stack->bottom)
+	{
+		stack->bottom = node;
+		stack->top = node;
+	}
+	else
+	{
+		node->next = stack->top;
+		stack->top->prev = node;
+		stack->top = node;
+	}
+	stack->size++;
+	return (1);
 }
 
 void	stack_push_bottom(t_stack *stack, int value, int rank)
