@@ -46,7 +46,7 @@
 # push_swap directory
 
 /1_push_swap/*.*
-!/1_push_swap/include/push_swap.h
+!/1_push_swap/push_swap.h
 !/1_push_swap/ops_*.c
 !/1_push_swap/sort_*.c
 !/1_push_swap/main.c
