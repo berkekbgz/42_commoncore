@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   data_utils.c                                       :+:      :+:    :+:   */
+/*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:01:31 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/14 16:19:34 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:41:09 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,22 @@ t_stack	*new_stack(void)
 	return (stack);
 }
 
-int stack_push(t_stack *stack, int value)
+t_state	*new_state(void)
 {
-	t_node *node;
-	
-	node = new_node(value, NULL);
-	if (!node)
-		return (0);
-	if (!stack->bottom)
-	{
-		stack->bottom = node;
-		stack->top = node;
-	}
-	else
-	{
-		node->next = stack->top;
-		stack->top->prev = node;
-		stack->top = node;
-	}
-	stack->size++;
-	return (1);
+	t_state	*state;
+	int		i;
+
+	state = malloc(sizeof(t_state));
+	if (!state)
+		return (NULL);
+	state->a = new_stack();
+	state->b = new_stack();
+	state->op_count = 0;
+	state->disorder = 0.0;
+	i = 0;
+	while (i < N_OP_COUNT)
+		state->op_counts[i++] = 0;
+	return (state);
 }
 
 void	stack_push_bottom(t_stack *stack, int value, int rank)
@@ -81,22 +77,4 @@ void	stack_push_bottom(t_stack *stack, int value, int rank)
 		stack->bottom = node;
 	}
 	stack->size++;
-}
-
-t_state	*new_state(void)
-{
-	t_state	*state;
-	int		i;
-
-	state = malloc(sizeof(t_state));
-	if (!state)
-		return (NULL);
-	state->a = new_stack();
-	state->b = new_stack();
-	state->op_count = 0;
-	state->disorder = 0.0;
-	i = 0;
-	while (i < N_OP_COUNT)
-		state->op_counts[i++] = 0;
-	return (state);
 }

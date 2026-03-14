@@ -51,7 +51,8 @@
 !/1_push_swap/sort_*.c
 !/1_push_swap/main.c
 !/1_push_swap/utils.c
-!/1_push_swap/data_utils.c
+!/1_push_swap/data_init.c
+!/1_push_swap/data_free.c
 !/1_push_swap/compute_disorder.c
 !/1_push_swap/init.c
 !/1_push_swap/ft_printf

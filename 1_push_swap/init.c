@@ -6,12 +6,13 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:02:37 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/14 16:54:19 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:44:36 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "push_swap.h"
+#include <limits.h>
 
 void	assign_ranks(t_stack *stack)
 {
@@ -94,7 +95,7 @@ int	parse_numbers(t_state *state, int argc, char **argv, int arg_start)
 		if (!check_arg(argv[arg_start]))
 			return (0);
 		value = ft_atol(argv[arg_start]);
-		if (!ft_isint(value))
+		if (value > INT_MAX || value < INT_MIN)
 			return (0);
 		i = arg_start + 1;
 		while (i < argc)

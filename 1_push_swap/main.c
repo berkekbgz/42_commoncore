@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:28:07 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/14 16:08:08 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/03/14 18:19:46 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ static void	set_strategy(char *arg, t_state *state)
 	if (ft_strncmp(arg, "--bench", 8) == 0)
 		state->bench_mode = 1;
 	else if (ft_strncmp(arg, "--simple", 9) == 0)
-		state->strategy_flag = 1;
+		state->strategy_flag = STRATEGY_SIMPLE;
 	else if (ft_strncmp(arg, "--medium", 9) == 0)
-		state->strategy_flag = 2;
+		state->strategy_flag = STRATEGY_MEDIUM;
 	else if (ft_strncmp(arg, "--complex", 10) == 0)
-		state->strategy_flag = 3;
+		state->strategy_flag = STRATEGY_COMPLEX;
 	else if (ft_strncmp(arg, "--adaptive", 11) == 0)
-		state->strategy_flag = 0;
+		state->strategy_flag = STRATEGY_ADAPTIVE;
 }
 
 static int	parse_flags(int argc, char **argv, t_state *state)
@@ -32,7 +32,7 @@ static int	parse_flags(int argc, char **argv, t_state *state)
 	int	i;
 
 	i = 1;
-	state->strategy_flag = 0;
+	state->strategy_flag = STRATEGY_ADAPTIVE;
 	state->bench_mode = 0;
 	while (i < argc)
 	{
@@ -49,13 +49,13 @@ static void	execute_sort(t_state *state)
 {
 	assign_ranks(state->a);
 	state->disorder = compute_disorder(state->a);
-	if (state->strategy_flag == 1)
+	if (state->strategy_flag == STRATEGY_SIMPLE)
 		sort_simple(state);
-	else if (state->strategy_flag == 2)
+	else if (state->strategy_flag == STRATEGY_MEDIUM)
 		sort_medium(state);
-	else if (state->strategy_flag == 3)
+	else if (state->strategy_flag == STRATEGY_COMPLEX)
 		sort_complex(state);
-	else
+	else if (state->strategy_flag == STRATEGY_ADAPTIVE)
 		sort_adaptive(state);
 }
 

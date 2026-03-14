@@ -6,11 +6,12 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 12:36:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/14 16:51:52 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/03/14 17:51:16 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "push_swap.h"
 #include <limits.h>
 
 int	sqrt_floor(int value)
@@ -26,11 +27,6 @@ int	sqrt_floor(int value)
 int		ft_iswhitespace(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
-}
-
-int		ft_isint(long l)
-{
-	return (l <= INT_MAX && l >= INT_MIN);
 }
 
 long	ft_atol(char *str)
@@ -56,4 +52,34 @@ long	ft_atol(char *str)
 		i++;
 	}
 	return (result * sign);
+}
+
+int		is_sorted(t_stack *stack)
+{
+	t_node *node;
+
+	if (!stack || !stack->top)
+		return (1);
+	node = stack->top;
+	while (node->next)
+	{
+		if (node->value > node->next->value)
+			return (0);
+		node = node->next;
+	}
+	return (1);
+}
+
+
+static void put_bench()
+{
+	ft_putstr_fd("[BENCH] ", 2);
+}
+
+void	print_benchmark(t_state *state)
+{
+	put_bench();
+	ft_putstr_fd("disorder: ", 2);
+	ft_putstr_fd(ft_itoa(), 2);
+	
 }

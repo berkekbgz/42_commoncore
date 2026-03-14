@@ -1,32 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_adaptive.c                                    :+:      :+:    :+:   */
+/*   data_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/08 12:33:36 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/14 18:16:57 by erearsla         ###   ########.fr       */
+/*   Created: 2026/03/14 17:37:47 by erearsla          #+#    #+#             */
+/*   Updated: 2026/03/14 17:42:00 by erearsla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdlib.h>
 
-void	sort_adaptive(t_state *state)
+static void	free_stack(t_stack *stack)
 {
-	if (state->disorder < 0.2)
+	t_node *tmp;
+	t_node *next;
+
+	if (!stack)
+		return ;
+
+	tmp = stack->top;
+	while (tmp)
 	{
-		state->hidden_strategy = STRATEGY_SIMPLE;
-		return (sort_simple(state));
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
-	else if (state->disorder < 0.5)
+	free(stack);
+}
+
+void	free_state(t_state *state)
+{
+	if (!state)
+		return ;
+
+	if (state->a)
 	{
-		state->hidden_strategy = STRATEGY_MEDIUM;	
-		return (sort_medium(state));
+		free_stack(state->a);
+		state->a = NULL;
 	}
-	else
+	if (state->b)
 	{
-		state->hidden_strategy = STRATEGY_COMPLEX;
-		return (sort_complex(state));
+		free_stack(state->b);
+		state->b = NULL;
 	}
+	free(state);
 }
