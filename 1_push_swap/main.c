@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:28:07 by erearsla          #+#    #+#             */
-/*   Updated: 2026/05/01 16:24:09 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:42:42 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,16 @@ static int	parse_flags(int argc, char **argv, t_state *state)
 	int	i;
 
 	i = 1;
-	state->strategy_flag = STRATEGY_ADAPTIVE;
-	state->bench_mode = 0;
 	while (i < argc)
 	{
 		if (ft_strncmp(argv[i], "--", 2) == 0)
-			set_strategy(argv[i], state);
-		else
-			break ;
+		{
+			if (!set_strategy(argv[i], state))
+				return (0);
+		}
 		i++;
 	}
-	return (i);
+	return (1);
 }
 
 static void	execute_sort(t_state *state)
@@ -53,11 +52,20 @@ static void	execute_sort(t_state *state)
 	assign_ranks(state->a);
 	state->disorder = compute_disorder(state->a);
 	if (state->strategy_flag == STRATEGY_SIMPLE)
+	{
+		state->hidden_strategy = STRATEGY_SIMPLE;
 		sort_simple(state);
+	}
 	else if (state->strategy_flag == STRATEGY_MEDIUM)
+	{
+		state->hidden_strategy = STRATEGY_MEDIUM;
 		sort_medium(state);
+	}
 	else if (state->strategy_flag == STRATEGY_COMPLEX)
+	{
+		state->hidden_strategy = STRATEGY_COMPLEX;
 		sort_complex(state);
+	}
 	else if (state->strategy_flag == STRATEGY_ADAPTIVE)
 		sort_adaptive(state);
 }
@@ -65,17 +73,21 @@ static void	execute_sort(t_state *state)
 int	main(int argc, char **argv)
 {
 	t_state	*state;
-	int		arg_start;
 
 	if (argc < 2)
 		return (0);
 	state = new_state();
-	arg_start = parse_flags(argc, argv, state);
-	if (!parse_numbers(state, argc, argv, arg_start))
+	if (!state || !parse_flags(argc, argv, state)
+		|| !parse_numbers(state, argc, argv))
 	{
 		write(2, "Error\n", 6);
 		free_state(state);
 		return (1);
+	}
+	if (state->a->size == 0)
+	{
+		free_state(state);
+		return (0);
 	}
 	if (state->a->size > 1 && !is_sorted(state->a))
 		execute_sort(state);

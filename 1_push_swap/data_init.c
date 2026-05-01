@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:01:31 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/14 17:41:09 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:42:09 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,31 @@ t_state	*new_state(void)
 		return (NULL);
 	state->a = new_stack();
 	state->b = new_stack();
+	if (!state->a || !state->b)
+	{
+		free(state->a);
+		free(state->b);
+		free(state);
+		return (NULL);
+	}
 	state->op_count = 0;
 	state->disorder = 0.0;
+	state->bench_mode = 0;
+	state->strategy_flag = STRATEGY_ADAPTIVE;
+	state->hidden_strategy = STRATEGY_ADAPTIVE;
 	i = 0;
 	while (i < N_OP_COUNT)
 		state->op_counts[i++] = 0;
 	return (state);
 }
 
-void	stack_push_bottom(t_stack *stack, int value, int rank)
+int	stack_push_bottom(t_stack *stack, int value, int rank)
 {
 	t_node	*node;
 
 	node = new_node(value, rank);
 	if (!node)
-		return ;
+		return (0);
 	if (!stack->top)
 	{
 		stack->top = node;
@@ -77,4 +87,5 @@ void	stack_push_bottom(t_stack *stack, int value, int rank)
 		stack->bottom = node;
 	}
 	stack->size++;
+	return (1);
 }

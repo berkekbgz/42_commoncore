@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:02:37 by erearsla          #+#    #+#             */
-/*   Updated: 2026/05/01 16:35:52 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:42:28 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ double	compute_disorder(t_stack *stack)
 static int	check_arg(char *s)
 {
 	int	digit_len;
-	
+
 	digit_len = 0;
 	while (ft_iswhitespace(*s))
 		s++;
 	if (*s == '-' || *s == '+')
-        s++;
+		s++;
 	if (!*s || !ft_isdigit(*s))
-        return (0);
+		return (0);
 	while (*s)
 	{
 		if (!ft_isdigit(*s))
@@ -84,31 +84,50 @@ static int	check_arg(char *s)
 	return (1);
 }
 
-int	parse_numbers(t_state *state, int argc, char **argv, int arg_start)
+static int	has_duplicate(int argc, char **argv, int arg, long value)
 {
 	int		i;
-	long	value;
 	long	check;
 
-	while (argv[arg_start])
+	i = arg + 1;
+	while (i < argc)
 	{
-		if (!check_arg(argv[arg_start]))
+		if (ft_strncmp(argv[i], "--", 2) == 0)
+		{
+			i++;
+			continue ;
+		}
+		check = ft_atol(argv[i]);
+		if (value == check)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	parse_numbers(t_state *state, int argc, char **argv)
+{
+	int		arg;
+	long	value;
+
+	arg = 1;
+	while (argv[arg])
+	{
+		if (ft_strncmp(argv[arg], "--", 2) == 0)
+		{
+			arg++;
+			continue ;
+		}
+		if (!check_arg(argv[arg]))
 			return (0);
-		value = ft_atol(argv[arg_start]);
+		value = ft_atol(argv[arg]);
 		if (value > INT_MAX || value < INT_MIN)
 			return (0);
-		i = arg_start + 1;
-		while (i < argc)
-		{
-			check = ft_atol(argv[i]);			
-			if (value == check)
-				return (0);
-			i++;
-		}
-		stack_push_bottom(state->a, (int)value, NULL);
-		
-		arg_start++;
+		if (has_duplicate(argc, argv, arg, value))
+			return (0);
+		if (!stack_push_bottom(state->a, (int)value, 0))
+			return (0);
+		arg++;
 	}
-
 	return (1);
 }

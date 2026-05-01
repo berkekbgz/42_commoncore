@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/14 19:51:52 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:42:53 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_state
 
 void	assign_ranks(t_stack *stack);
 double	compute_disorder(t_stack *stack);
-int		parse_numbers(t_state *state, int argc, char **argv, int arg_start);
+int		parse_numbers(t_state *state, int argc, char **argv);
 
 // Sort functions
 

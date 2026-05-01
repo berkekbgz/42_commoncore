@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:06:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 21:23:32 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:42:47 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	swap_top(t_stack *stack)
 	stack->top->value = stack->top->next->value;
 	stack->top->next->value = tmp;
 	tmp = stack->top->rank;
-	stack->top->rank = stack->top->rank;
+	stack->top->rank = stack->top->next->rank;
 	stack->top->next->rank = tmp;
 }
 
