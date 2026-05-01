@@ -21,7 +21,7 @@ void	sort_adaptive(t_state *state)
 	}
 	else if (state->disorder < 0.5)
 	{
-		state->hidden_strategy = STRATEGY_MEDIUM;	
+		state->hidden_strategy = STRATEGY_MEDIUM;
 		return (sort_medium(state));
 	}
 	else
