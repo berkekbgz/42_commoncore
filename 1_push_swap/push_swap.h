@@ -13,8 +13,6 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-#define OP_NAMES (char*[]){"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"}
-
 typedef enum e_op
 {
 	OP_SA,
@@ -37,7 +35,7 @@ typedef enum e_strategy
 	STRATEGY_MEDIUM,
 	STRATEGY_COMPLEX,
 	STRATEGY_ADAPTIVE
-} t_strategy;
+}	t_strategy;
 
 typedef struct s_node
 {
@@ -115,7 +113,7 @@ int		ft_iswhitespace(int c);
 t_node	*new_node(int value, int rank);
 t_stack	*new_stack(void);
 t_state	*new_state(void);
-void	stack_push_bottom(t_stack *stack, int value, int rank);
+int		stack_push_bottom(t_stack *stack, int value, int rank);
 
 void	free_state(t_state *state);
 

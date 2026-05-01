@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 12:36:04 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/14 17:51:16 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:37:57 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	sqrt_floor(int value)
 	return (i - 1);
 }
 
-int		ft_iswhitespace(int c)
+int	ft_iswhitespace(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
@@ -54,9 +54,9 @@ long	ft_atol(char *str)
 	return (result * sign);
 }
 
-int		is_sorted(t_stack *stack)
+int	is_sorted(t_stack *stack)
 {
-	t_node *node;
+	t_node	*node;
 
 	if (!stack || !stack->top)
 		return (1);
@@ -68,18 +68,4 @@ int		is_sorted(t_stack *stack)
 		node = node->next;
 	}
 	return (1);
-}
-
-
-static void put_bench()
-{
-	ft_putstr_fd("[BENCH] ", 2);
-}
-
-void	print_benchmark(t_state *state)
-{
-	put_bench();
-	ft_putstr_fd("disorder: ", 2);
-	ft_putstr_fd(ft_itoa(), 2);
-	
 }

@@ -15,12 +15,11 @@
 
 static void	free_stack(t_stack *stack)
 {
-	t_node *tmp;
-	t_node *next;
+	t_node	*tmp;
+	t_node	*next;
 
 	if (!stack)
 		return ;
-
 	tmp = stack->top;
 	while (tmp)
 	{
@@ -35,7 +34,6 @@ void	free_state(t_state *state)
 {
 	if (!state)
 		return ;
-
 	if (state->a)
 	{
 		free_stack(state->a);

@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:02:37 by erearsla          #+#    #+#             */
-/*   Updated: 2026/03/14 17:44:36 by erearsla         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:35:52 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ double	compute_disorder(t_stack *stack)
 
 static int	check_arg(char *s)
 {
-	int digit_len;
+	int	digit_len;
 	
 	digit_len = 0;
 	while (ft_iswhitespace(*s))
