@@ -6,13 +6,11 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 20:02:37 by erearsla          #+#    #+#             */
-/*   Updated: 2026/05/01 16:42:28 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:46:30 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "push_swap.h"
-#include <limits.h>
 
 void	assign_ranks(t_stack *stack)
 {
@@ -59,75 +57,4 @@ double	compute_disorder(t_stack *stack)
 	if (total_pairs <= 0)
 		return (0);
 	return (mistakes / total_pairs);
-}
-
-static int	check_arg(char *s)
-{
-	int	digit_len;
-
-	digit_len = 0;
-	while (ft_iswhitespace(*s))
-		s++;
-	if (*s == '-' || *s == '+')
-		s++;
-	if (!*s || !ft_isdigit(*s))
-		return (0);
-	while (*s)
-	{
-		if (!ft_isdigit(*s))
-			return (0);
-		digit_len++;
-		if (digit_len > 11)
-			return (0);
-		s++;
-	}
-	return (1);
-}
-
-static int	has_duplicate(int argc, char **argv, int arg, long value)
-{
-	int		i;
-	long	check;
-
-	i = arg + 1;
-	while (i < argc)
-	{
-		if (ft_strncmp(argv[i], "--", 2) == 0)
-		{
-			i++;
-			continue ;
-		}
-		check = ft_atol(argv[i]);
-		if (value == check)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	parse_numbers(t_state *state, int argc, char **argv)
-{
-	int		arg;
-	long	value;
-
-	arg = 1;
-	while (argv[arg])
-	{
-		if (ft_strncmp(argv[arg], "--", 2) == 0)
-		{
-			arg++;
-			continue ;
-		}
-		if (!check_arg(argv[arg]))
-			return (0);
-		value = ft_atol(argv[arg]);
-		if (value > INT_MAX || value < INT_MIN)
-			return (0);
-		if (has_duplicate(argc, argv, arg, value))
-			return (0);
-		if (!stack_push_bottom(state->a, (int)value, 0))
-			return (0);
-		arg++;
-	}
-	return (1);
 }

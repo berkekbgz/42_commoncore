@@ -4,6 +4,7 @@ CFLAGS		= -Wall -Wextra -Werror -Ift_printf -Ilibft
 
 SRCS		= main.c \
 			init.c \
+			parse.c \
 			data_init.c \
 			data_free.c \
 			benchmark.c \
