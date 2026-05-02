@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/01 16:42:53 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/02 20:32:37 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ typedef struct s_node
 	int				rank;
 	struct s_node	*next;
 	struct s_node	*prev;
-}				t_node;
+}	t_node;
 
 typedef struct s_stack
 {
 	t_node	*top;
 	t_node	*bottom;
 	int		size;
-}			t_stack;
+}	t_stack;
 
 typedef struct s_state
 {
@@ -62,7 +62,7 @@ typedef struct s_state
 	int			bench_mode;
 	t_strategy	strategy_flag;
 	t_strategy	hidden_strategy;
-}			t_state;
+}	t_state;
 
 // Initialization
 
