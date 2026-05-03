@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/01 17:37:21 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/01 17:46:48 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:12:26 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int	parse_parts(t_state *state, char **parts)
 		if (!check_arg(parts[i]))
 			return (0);
 		value = ft_atol(parts[i]);
-		if (value > INT_MAX || value < INT_MIN || value_exists(state->a, value))
+		if (value > INT_MAX || value < INT_MIN
+			|| value_exists(state->a, value))
 			return (0);
 		if (!stack_push_bottom(state->a, (int)value, 0))
 			return (0);
