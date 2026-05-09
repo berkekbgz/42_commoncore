@@ -73,6 +73,7 @@ int		parse_numbers(t_state *state, int argc, char **argv);
 // Sort functions
 
 void	sort_simple(t_state *state);
+void	sort_small(t_state *state);
 void	sort_medium(t_state *state);
 void	sort_complex(t_state *state);
 void	sort_adaptive(t_state *state);

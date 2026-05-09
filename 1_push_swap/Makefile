@@ -12,6 +12,7 @@ SRCS		= main.c \
 			ops_rotate.c \
 			ops_reverse_rotate.c \
 			ops_swap.c \
+			sort_small.c \
 			sort_simple.c \
 			sort_medium.c \
 			sort_complex.c \
