@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:28:07 by erearsla          #+#    #+#             */
-/*   Updated: 2026/05/01 16:42:42 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/10 15:31:33 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ static int	set_strategy(char *arg, t_state *state)
 {
 	if (ft_strncmp(arg, "--bench", 8) == 0)
 		state->bench_mode = 1;
-	else if (ft_strncmp(arg, "--simple", 9) == 0)
+	else if (ft_strncmp(arg, "--simple", 9) == 0
+		&& state->strategy_flag == STRATEGY_UNKNOWN)
 		state->strategy_flag = STRATEGY_SIMPLE;
-	else if (ft_strncmp(arg, "--medium", 9) == 0)
+	else if (ft_strncmp(arg, "--medium", 9) == 0
+		&& state->strategy_flag == STRATEGY_UNKNOWN)
 		state->strategy_flag = STRATEGY_MEDIUM;
-	else if (ft_strncmp(arg, "--complex", 10) == 0)
+	else if (ft_strncmp(arg, "--complex", 10) == 0
+		&& state->strategy_flag == STRATEGY_UNKNOWN)
 		state->strategy_flag = STRATEGY_COMPLEX;
-	else if (ft_strncmp(arg, "--adaptive", 11) == 0)
+	else if (ft_strncmp(arg, "--adaptive", 11) == 0
+		&& state->strategy_flag == STRATEGY_UNKNOWN)
 		state->strategy_flag = STRATEGY_ADAPTIVE;
 	else
 		return (0);
@@ -84,6 +88,8 @@ int	main(int argc, char **argv)
 		free_state(state);
 		return (1);
 	}
+	if (state->strategy_flag == STRATEGY_UNKNOWN)
+		state->strategy_flag = STRATEGY_ADAPTIVE;
 	if (state->a->size == 0)
 	{
 		free_state(state);

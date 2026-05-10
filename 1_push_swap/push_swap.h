@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 18:59:44 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/02 20:32:37 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/10 15:22:12 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_op
 
 typedef enum e_strategy
 {
+	STRATEGY_UNKNOWN,
 	STRATEGY_SIMPLE,
 	STRATEGY_MEDIUM,
 	STRATEGY_COMPLEX,

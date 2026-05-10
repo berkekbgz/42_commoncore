@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:01:31 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/01 16:42:09 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/10 15:22:20 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ t_state	*new_state(void)
 	state->op_count = 0;
 	state->disorder = 0.0;
 	state->bench_mode = 0;
-	state->strategy_flag = STRATEGY_ADAPTIVE;
-	state->hidden_strategy = STRATEGY_ADAPTIVE;
+	state->strategy_flag = STRATEGY_UNKNOWN;
+	state->hidden_strategy = STRATEGY_UNKNOWN;
 	i = 0;
 	while (i < N_OP_COUNT)
 		state->op_counts[i++] = 0;
