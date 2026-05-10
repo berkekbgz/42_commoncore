@@ -68,6 +68,11 @@ command line wins. If none is given, `--adaptive` is used.
 | `--complex`  | Radix sort on ranks                 | O(n·log n)                 |
 | `--adaptive` | Dispatch by measured `disorder`     | matches the chosen regime  |
 
+The adaptive path always measures disorder first and selects the subject's
+required regime from that value. After that regime is selected, inputs of five
+or fewer values use a dedicated bounded small-stack base case to keep operation
+counts below the evaluator's strict small-input limits.
+
 `--bench` is an optional flag that, after sorting, prints a structured report
 on **stderr** so the operation stream on stdout can still be piped into a
 checker. The report contains the disorder (in percent), the strategy actually
@@ -85,7 +90,7 @@ pb
 ...
 
 $ ARG="4 67 3 87 23"; ./push_swap --adaptive $ARG | wc -l
-13
+9
 
 $ ARG="4 67 3 87 23"; ./push_swap --complex $ARG | ./checker_linux $ARG
 OK
@@ -95,10 +100,9 @@ $ ./push_swap --bench $(cat args.txt) 2> bench.txt | ./checker_linux $(cat args.
 OK
 $ cat bench.txt
 [bench] disorder: 49.93%
-[bench] strategy: Adaptive / O(n*sqrt(n))
+[bench] strategy: Adaptive / O(n sqrt(n))
 [bench] total_ops: 7997
-[bench] sa: 0 sb: 0 ss: 0 pa: 500 pb: 500
-[bench] ra: 4840 rb: 1098 rr: 0 rra: 0 rrb: 1059 rrr: 0
+[bench] sa: 0 sb: 0 ss: 0 pa: 500 pb: 500 ra: 4840 rb: 1098 rr: 0 rra: 0 rrb: 1059 rrr: 0
 
 $ ./push_swap --adaptive 0 one 2 3
 Error
@@ -170,8 +174,29 @@ patterns that are awkward to express with rotations only.
 | `disorder ≥ 0.5`         | Complex  (O(n·log n))   | High-entropy input rewards the asymptotically best strategy.                         |
 
 The thresholds (`0.2` and `0.5`) come straight from the subject. They split
-the disorder spectrum into thirds where each algorithm is cheapest in
-operation count for our implementations on randomly generated inputs.
+the disorder spectrum into the required low, medium, and high regimes.
+
+For `n <= 5`, the selected adaptive regime uses `sort_small.c` as a bounded
+base case. This does not replace the disorder dispatch: `hidden_strategy` is
+still set from the measured disorder, and `--bench` still reports the selected
+regime's complexity. The base case exists because small inputs are judged by
+very tight absolute operation counts, where a general-purpose radix or chunk
+pass emits too many moves.
+
+### Small input base case — min-extraction + fixed three-sort
+
+`sort_small.c` handles tiny stacks used by the adaptive strategy. It repeatedly
+moves the current minimum to the top with the cheaper of `ra` / `rra`, pushes it
+to `b`, sorts the remaining two or three values directly, then restores the
+saved minima with `pa`. For the bounded `n <= 5` case this is constant-time in
+the asymptotic model, while keeping the concrete operation counts low:
+
+| n | worst operations |
+|---|------------------|
+| 2 | 1                |
+| 3 | 2                |
+| 4 | 6                |
+| 5 | 10               |
 
 ### Complexity summary (Push_swap operation model)
 
@@ -211,6 +236,7 @@ strategy (`--adaptive`):
 ├── ops_rotate.c      		# ra / rb / rr
 ├── ops_reverse_rotate.c	# rra / rrb / rrr
 ├── sort_simple.c     		# O(n^2)  selection sort
+├── sort_small.c      		# bounded small-stack base case
 ├── sort_medium.c     		# O(n*√n) chunk sort
 ├── sort_complex.c    		# O(n*log n) radix sort
 ├── sort_adaptive.c   		# disorder-driven dispatch
@@ -224,7 +250,7 @@ strategy (`--adaptive`):
 
 | Login      | Focus                                                                |
 |------------|----------------------------------------------------------------------|
-| `bkabagoz` | Stack/state data structures, operation primitives, medium & complex sorts, adaptive dispatcher, benchmark mode. |
+| `bkabagoz` | Stack/state data structures, operation primitives, medium & complex sorts, adaptive dispatcher, small-input base case, benchmark mode. |
 | `erearsla` | Argument parsing & error handling, rank assignment and disorder metric, simple sort, build system & test harness. |
 
 Both members participated in design discussions, peer review, and debugging of
@@ -249,6 +275,8 @@ AI tools (ChatGPT and Claude) were used for the following bounded tasks:
   the actual code, our chosen thresholds, and our contribution split.
 - Rubber-ducking edge cases in the parser (leading `+`, lone `-`, overflow at
   `INT_MIN`/`INT_MAX`).
+- Reviewing Evo's small-input operation limits against the subject's
+  disorder-driven adaptive requirement.
 
 Every algorithmic decision and every line of code committed to this repository
 was reviewed, understood, and rewritten by us where needed. We are able to
