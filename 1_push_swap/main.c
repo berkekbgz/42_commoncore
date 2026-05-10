@@ -6,7 +6,7 @@
 /*   By: erearsla <erearsla@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:28:07 by erearsla          #+#    #+#             */
-/*   Updated: 2026/05/10 15:31:33 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/10 16:25:16 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,37 @@ static int	parse_flags(int argc, char **argv, t_state *state)
 	return (1);
 }
 
+static void	set_hidden_strategy(t_state *state)
+{
+	if (state->strategy_flag == STRATEGY_SIMPLE)
+		state->hidden_strategy = STRATEGY_SIMPLE;
+	else if (state->strategy_flag == STRATEGY_MEDIUM)
+		state->hidden_strategy = STRATEGY_MEDIUM;
+	else if (state->strategy_flag == STRATEGY_COMPLEX)
+		state->hidden_strategy = STRATEGY_COMPLEX;
+	else if (state->disorder < 0.2)
+		state->hidden_strategy = STRATEGY_SIMPLE;
+	else if (state->disorder < 0.5)
+		state->hidden_strategy = STRATEGY_MEDIUM;
+	else
+		state->hidden_strategy = STRATEGY_COMPLEX;
+}
+
 static void	execute_sort(t_state *state)
 {
 	assign_ranks(state->a);
 	state->disorder = compute_disorder(state->a);
+	set_hidden_strategy(state);
+	if (is_sorted(state->a))
+		return ;
+	if (state->a->size <= 5)
+		return (sort_small(state));
 	if (state->strategy_flag == STRATEGY_SIMPLE)
-	{
-		state->hidden_strategy = STRATEGY_SIMPLE;
 		sort_simple(state);
-	}
 	else if (state->strategy_flag == STRATEGY_MEDIUM)
-	{
-		state->hidden_strategy = STRATEGY_MEDIUM;
 		sort_medium(state);
-	}
 	else if (state->strategy_flag == STRATEGY_COMPLEX)
-	{
-		state->hidden_strategy = STRATEGY_COMPLEX;
 		sort_complex(state);
-	}
 	else if (state->strategy_flag == STRATEGY_ADAPTIVE)
 		sort_adaptive(state);
 }
@@ -95,7 +107,7 @@ int	main(int argc, char **argv)
 		free_state(state);
 		return (0);
 	}
-	if (state->a->size > 1 && !is_sorted(state->a))
+	if (state->a->size > 0)
 		execute_sort(state);
 	if (state->bench_mode)
 		print_benchmark(state);

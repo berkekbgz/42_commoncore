@@ -17,22 +17,16 @@ void	sort_adaptive(t_state *state)
 	if (state->disorder < 0.2)
 	{
 		state->hidden_strategy = STRATEGY_SIMPLE;
-		if (state->a->size <= 5)
-			return (sort_small(state));
 		return (sort_simple(state));
 	}
 	else if (state->disorder < 0.5)
 	{
 		state->hidden_strategy = STRATEGY_MEDIUM;
-		if (state->a->size <= 5)
-			return (sort_small(state));
 		return (sort_medium(state));
 	}
 	else
 	{
 		state->hidden_strategy = STRATEGY_COMPLEX;
-		if (state->a->size <= 5)
-			return (sort_small(state));
 		return (sort_complex(state));
 	}
 }
