@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 16:51:58 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/03/07 20:16:45 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/19 17:03:40 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
 	return (-1);
 }
 
+static int	clean_and_return(va_list *args)
+{
+	va_end(*args);
+	return (-1);
+}
+
 int	ft_printf(const char *format, ...)
 {
 	va_list	args;
@@ -65,7 +71,7 @@ int	ft_printf(const char *format, ...)
 		else
 			ret = write(1, format++, 1);
 		if (ret == -1)
-			return (-1);
+			return (clean_and_return(&args));
 		count += ret;
 	}
 	va_end(args);
