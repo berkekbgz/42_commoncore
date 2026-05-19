@@ -30,7 +30,7 @@ Unlike the original libc `printf()`, this implementation does not reproduce inte
 
 ## Instructions
 
-Build the static library from the `1_ft_printf` directory:
+Build the static library from the project directory:
 
 ```sh
 make
@@ -86,7 +86,7 @@ Pointer output casts the pointer value to an unsigned integer type large enough 
 ## Project Structure
 
 ```text
-1_ft_printf/
+/
 |-- Makefile
 |-- README.md
 |-- ft_printf.c
@@ -102,7 +102,7 @@ Pointer output casts the pointer value to an unsigned integer type large enough 
 
 ## Resources
 
-- 42 subject: `../pdfs/ft_printf.subj.pdf`
+- 42 ft_printf subject pdf
 - C variadic arguments: https://en.cppreference.com/w/c/variadic
 - `stdarg(3)` manual: https://man7.org/linux/man-pages/man3/stdarg.3.html
 - `printf(3)` manual: https://man7.org/linux/man-pages/man3/printf.3.html
