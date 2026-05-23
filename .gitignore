@@ -42,6 +42,10 @@
 !/1_get_next_line/get_next_line.c
 !/1_get_next_line/get_next_line_utils.c
 !/1_get_next_line/get_next_line.h
+!/1_get_next_line/get_next_line_bonus.c
+!/1_get_next_line/get_next_line_utils_bonus.c
+!/1_get_next_line/get_next_line_bonus.h
+!/1_get_next_line/README.md
 
 # push_swap directory
 

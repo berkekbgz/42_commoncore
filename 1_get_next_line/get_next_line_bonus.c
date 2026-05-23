@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 22:01:26 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/23 18:33:09 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/05/23 18:34:31 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*free_ptr(char **ptr)
 {
@@ -83,15 +83,19 @@ static char	*read_file(int fd, char *buf, char **remainder)
 
 char	*get_next_line(int fd)
 {
-	static char	*remainder;
+	static char	*remainder[MAX_OPEN_FD];
 	char		*buf;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_OPEN_FD || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (read(fd, 0, 0) < 0)
-		return (free_ptr(&remainder));
+	{
+		free(remainder[fd]);
+		remainder[fd] = NULL;
+		return (NULL);
+	}
 	buf = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	return (read_file(fd, buf, &remainder));
+	return (read_file(fd, buf, &remainder[fd]));
 }
