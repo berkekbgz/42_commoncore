@@ -1,4 +1,4 @@
 0_libft git@vogsphere.42istanbul.com.tr:vogsphere/intra-uuid-37ba5df2-9ca7-4c7f-8b0c-8ff13b16f0a5-7269652-bkabagoz - -
 1_ft_printf git@vogsphere.42istanbul.com.tr:vogsphere/intra-uuid-00f57e42-3f4b-4f23-b28e-57e626970731-7284645-bkabagoz 3226a274a8f42fa82fed4c32485622e0fbf8ec62 1_ft_printf/libft:0_libft
-1_get_next_line git@vogsphere.42istanbul.com.tr:vogsphere/intra-uuid-d16171d0-e883-49c7-886e-7c8be597f429-7444871-bkabagoz a1b3d6c363501c2be6c53bbaf21013ed31318ff3 -
+1_get_next_line git@vogsphere.42istanbul.com.tr:vogsphere/intra-uuid-d16171d0-e883-49c7-886e-7c8be597f429-7444871-bkabagoz ce1488938c774a67adf43207fb2783124ce71888 -
 1_push_swap git@vogsphere.42istanbul.com.tr:vogsphere/intra-uuid-66071afc-fbca-496d-9082-605db81f64a5-7412889-bkabagoz a47abd6a1bffc48cede9aa9af4a513238f7a31fd 1_push_swap/ft_printf:1_ft_printf,1_push_swap/libft:0_libft
