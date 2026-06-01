@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 22:01:26 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/23 18:34:31 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/06/01 18:18:06 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,6 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd >= MAX_OPEN_FD || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (read(fd, 0, 0) < 0)
-	{
-		free(remainder[fd]);
-		remainder[fd] = NULL;
-		return (NULL);
-	}
 	buf = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
