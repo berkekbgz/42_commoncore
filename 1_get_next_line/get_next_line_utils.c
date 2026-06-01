@@ -6,13 +6,13 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 22:01:24 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/23 18:33:55 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/06/01 18:23:35 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	gnl_strlen(char *s)
+static size_t	gnl_strlen(char *s)
 {
 	size_t	i;
 

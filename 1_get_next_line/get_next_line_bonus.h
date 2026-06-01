@@ -6,7 +6,7 @@
 /*   By: bkabagoz <bkabagoz@student.42istanbul.com.tr>   +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 21:30:49 by bkabagoz          #+#    #+#             */
-/*   Updated: 2026/05/23 18:34:22 by bkabagoz         ###   ########.fr       */
+/*   Updated: 2026/06/01 18:23:48 by bkabagoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int		has_newline(char *s);
 char	*gnl_strndup(char *s, size_t n);
 char	*gnl_strdup(char *s);
 char	*strjoin_free(char *s1, char *s2, size_t len2);
-size_t	gnl_strlen(char *s);
 
 #endif
