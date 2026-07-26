@@ -66,3 +66,13 @@
 !/1_push_swap/README.md
 !/1_push_swap/Makefile
 !/1_push_swap/maintester.c
+
+# python modules
+!/2_python_modules/python_00/ex0/ft_hello_garden.py
+!/2_python_modules/python_00/ex1/ft_garden_name.py
+!/2_python_modules/python_00/ex2/ft_plot_area.py
+!/2_python_modules/python_00/ex3/ft_harvest_total.py
+!/2_python_modules/python_00/ex4/ft_plant_age.py
+!/2_python_modules/python_00/ex5/ft_water_reminder.py
+!/2_python_modules/python_00/ex6/ft_count_harvest_*.py
+!/2_python_modules/python_00/ex7/ft_seed_inventory.py
