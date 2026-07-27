@@ -15,11 +15,14 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
+static int	try_parse_formatting(const char *peek, va_list *args,
+	int *consume)
 {
+	t_printf_flag	flag;
 	const char		*start;
 
 	start = peek;
+	flag = consume_flag(&peek);
 	*consume = (peek - start) + 2;
 	if (*peek == '%')
 		return (write(1, "%", 1));
@@ -34,9 +37,9 @@ static int	try_parse_formatting(const char *peek, va_list *args, int *consume)
 	else if (*peek == 'u')
 		return (ft_putuint(va_arg(*args, unsigned int)));
 	else if (*peek == 'x')
-		return (ft_puthex(va_arg(*args, unsigned int), 0, 0));
+		return (ft_puthex(va_arg(*args, unsigned int), 0, flag.hash));
 	else if (*peek == 'X')
-		return (ft_puthex(va_arg(*args, unsigned int), 1, 0));
+		return (ft_puthex(va_arg(*args, unsigned int), 1, flag.hash));
 	*consume = 1;
 	if (*peek)
 		return (write(1, "%", 1));
